@@ -1,5 +1,6 @@
 package github.mjksabit.akash.app.Controller;
 
+import github.mjksabit.akash.app.Model.RequestAction;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -23,10 +24,6 @@ public class ServerConnect implements Closeable{
 
     ResponseListener responseListener = null;
 
-    public void handleResponse(String responseText) {
-        System.out.println(responseText);
-    }
-
     private ServerConnect() {
         try {
             socket = new Socket(LOCALHOST, PORT);
@@ -38,7 +35,7 @@ public class ServerConnect implements Closeable{
             in = new BufferedReader(new InputStreamReader(inputStream));
             out = new BufferedWriter(new OutputStreamWriter(outputStream));
 
-            responseListener = new ResponseListener(this, in);
+            responseListener = new ResponseListener(in);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +61,14 @@ public class ServerConnect implements Closeable{
             e.printStackTrace();
         }
         System.out.println("Request Sent...");
-        responseListener.start();
+    }
+
+    public void waitForResponse(String responseType, RequestAction action) {
+        responseListener.addResponseKeyword(responseType, action);
+    }
+
+    public void stopListeningResponse (String responseType) {
+        responseListener.removeResponseKeyword(responseType);
     }
 
     @Override

@@ -6,8 +6,17 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class AuthenticateC {
+
+    private Request request = null;
+
+    @FXML
+    public void initialize() {
+        backToLogIn(null);
+        request = new Request();
+    }
 
     @FXML
     private Pane pane_login;
@@ -44,7 +53,15 @@ public class AuthenticateC {
 
     @FXML
     void logInRequest(ActionEvent event) {
+        String mobile, password;
 
+        mobile = textLoginMobileNo.getText();
+        password = textLogInPassword.getText();
+
+        request.logInRequest(mobile, password);
+
+        textLoginMobileNo.setText("");
+        textLogInPassword.setText("");
     }
 
     @FXML

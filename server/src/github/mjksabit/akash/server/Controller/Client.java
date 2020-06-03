@@ -41,7 +41,7 @@ public class Client implements Runnable {
 
 
                 response = requestHandler.handle(jsonRequest);
-
+                System.out.println("RESPONSE: "+response);
                 // MUST INCLUDE '\n', else client can not read LINE
                 out.write(response+"\n");
                 out.flush();
