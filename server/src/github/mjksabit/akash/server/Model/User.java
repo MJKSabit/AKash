@@ -2,13 +2,11 @@ package github.mjksabit.akash.server.Model;
 
 public class User {
     private String mobileNumber, password, name;
-    private double balance;
 
     public User(String mobileNumber, String password, String name) {
         this.mobileNumber = mobileNumber;
         this.password = password;
         this.name = name;
-        balance = 0;
     }
 
     public String getMobileNumber() {

@@ -1,17 +1,31 @@
 package github.mjksabit.akash.server;
 
+import github.mjksabit.akash.server.Controller.Client;
 import github.mjksabit.akash.server.Model.DBModel;
 import github.mjksabit.akash.server.Model.User;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 public class Main {
 
-    public static void main(String[] args) {
+    final static int PORT = 26979;
+
+    public static void main(String[] args) throws IOException {
         System.out.println("Server Running...");
 
-        DBModel db = DBModel.getInstance();
+        ServerSocket serverSocket = null;
+        Socket clientSocket = null;
 
-        System.out.println(db.createUser(new User("01303060524", "password", "Jehadul")));
-        System.out.println(db.getBalance("1000"));
+        serverSocket = new ServerSocket(PORT);
+
+        while (true){
+            clientSocket = serverSocket.accept();
+            System.out.println("New Client Connected...");
+            new Thread(new Client(clientSocket)).start();
+        }
+
 
     }
 }
