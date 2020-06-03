@@ -11,9 +11,6 @@ public class Client implements Runnable {
 
     private final Socket socket;
 
-    private BufferedWriter out = null;
-    private BufferedReader in = null;
-
     private User user;
     private RequestHandler requestHandler = null;
 
@@ -32,7 +29,7 @@ public class Client implements Runnable {
 
             String request, response;
 
-            while (true) {
+            while (socket.isConnected()) {
 
                 // Wait for Client Request
                 request = in.readLine();
@@ -42,7 +39,7 @@ public class Client implements Runnable {
 
 
                 response = requestHandler.handle(jsonRequest);
-                out.write(response);
+                out.write(response+"\n");
                 out.flush();
             }
 
