@@ -17,7 +17,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("View/authentication.fxml"));
         AnchorPane pane = loader.load();
 
-        Scene scene = new Scene(pane, 300, 275);
+        Scene scene = new Scene(pane);
 
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(scene);

@@ -35,16 +35,22 @@ public class Client implements Runnable {
                 request = in.readLine();
 
                 JSONObject jsonRequest = new JSONObject(request);
+
+                // Explicit Client Disconnect
                 if(jsonRequest.getString(RequestHandler.REQUEST_TYPE).equals("exit")) break;
 
 
                 response = requestHandler.handle(jsonRequest);
+
+                // MUST INCLUDE '\n', else client can not read LINE
                 out.write(response+"\n");
                 out.flush();
             }
 
-        } catch (IOException | JSONException | NullPointerException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            // Normal Exit...
         }
 
         System.out.println("Client Exit...");
