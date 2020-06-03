@@ -9,6 +9,7 @@ public class DBModel {
     private static final String USER_NAME = "name";
     private static final String USER_PASSWORD = "password";
     private static final String USER_MOBILE_NO = "mobileno";
+    private static final String USER_BALANCE = "balance";
 
     private static DBModel instance = null;
 
@@ -77,4 +78,37 @@ public class DBModel {
         return status;
     }
 
+    public boolean createUser(User user) {
+        String sql = "INSERT INTO " + USER_TABLE + " ( " +
+                USER_MOBILE_NO + ", " + USER_PASSWORD + ", " + USER_NAME + " ) " +
+                "VALUES ( ?, ?, ? )";
+
+        try (PreparedStatement statement = dbConnect.prepareStatement(sql)) {
+            statement.execute(sql);
+        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    public double getBalance(String mobile) {
+        String sql = "SELECT " + USER_BALANCE + ", " + USER_MOBILE_NO + " FROM " + USER_TABLE + " WHERE " + USER_MOBILE_NO + " = ? ";
+
+        System.out.println(sql);
+
+        double balance = -1;
+        try (PreparedStatement pst = dbConnect.prepareStatement(sql)) {
+            pst.setString(1, mobile);
+
+            ResultSet resultSet = pst.executeQuery();
+            balance = resultSet.getDouble(1);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return balance;
+    }
 }
