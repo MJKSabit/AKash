@@ -1,22 +1,18 @@
 package github.mjksabit.akash.app;
 
 import com.jfoenix.controls.JFXSnackbar;
-import github.mjksabit.akash.app.Controller.ServerConnect;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
+
+import java.io.IOException;
 
 public class Main extends Application {
 
@@ -61,7 +57,7 @@ public class Main extends Application {
 
     public static Parent replaceSceneContent(String fxml) throws Exception {
         stage.setResizable(true);
-        Parent page = (Parent) FXMLLoader.load(Main.class.getResource("View/"+fxml+".fxml"), null, new JavaFXBuilderFactory());
+        Parent page = loadFXML(fxml);
         Scene scene = stage.getScene();
         if (scene == null) {
             scene = new Scene(page);
@@ -75,8 +71,16 @@ public class Main extends Application {
         return page;
     }
 
+    public static Parent loadFXML(String fxml) throws IOException {
+        return FXMLLoader.load(Main.class.getResource("View/"+fxml+".fxml"));
+    }
+
     public static void showError(String text, long durationInMSec) {
         Pane rootPane = (Pane) stage.getScene().getRoot();
+        showError(rootPane, text, durationInMSec);
+    }
+
+    public static void showError(Pane rootPane, String text, long durationInMSec) {
         Label toast = new Label(text);
         toast.setPrefWidth(rootPane.getWidth());
         toast.setWrapText(true);
@@ -86,6 +90,10 @@ public class Main extends Application {
 
     public static void showSuccess(String text, long duration) {
         Pane rootPane = (Pane) stage.getScene().getRoot();
+        showSuccess(rootPane, text, duration);
+    }
+
+    public static void showSuccess(Pane rootPane, String text, long duration) {
         Label toast = new Label(text);
         toast.setPrefWidth(rootPane.getWidth());
         toast.setWrapText(true);
