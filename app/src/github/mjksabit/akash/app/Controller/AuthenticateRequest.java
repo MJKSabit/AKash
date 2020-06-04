@@ -71,7 +71,14 @@ public class AuthenticateRequest {
 
             if (success){
                 Main.showSuccess("Log In Success" , 2000);
-                Platform.runLater(() -> Main.replaceSceneContent("application"));
+                Platform.runLater(() -> {
+                    ApplicationC controller = (ApplicationC) Main.replaceSceneContent("application");
+                    try {
+                        controller.setUser(mobileNo, password, json.getString("name"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                });
             } else {
                 Main.showError("Invalid Username/Password" , 2000);
             }

@@ -65,6 +65,10 @@ public class RequestHandler {
         response.put(RESPONSE_TYPE, REQUEST_LOGIN);
         response.put(RESPONSE_SUCCESS, user != null);
 
+        if(user!=null) {
+            response.put("name", user.getName());
+        }
+
         return response.toString();
     }
 

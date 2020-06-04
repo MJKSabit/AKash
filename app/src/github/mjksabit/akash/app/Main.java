@@ -55,30 +55,39 @@ public class Main extends Application {
         return true;
     }
 
-    public static Parent replaceSceneContent(String fxml){
+    public static Object replaceSceneContent(String fxml){
         stage.setResizable(true);
-        Parent page = null;
+        FXMLLoader loader = null;
+        Parent parent = null;
+
         try {
-            page = loadFXML(fxml);
+            loader = loadFXML(fxml);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            parent = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         Scene scene = stage.getScene();
-        if (scene == null || page == null) {
-            scene = new Scene(page);
+        if (scene == null || parent == null) {
+            scene = new Scene(parent);
 //            scene.getStylesheets().add(Main.class.getResource("demo.css").toExternalForm());
             stage.setScene(scene);
         } else {
-            stage.getScene().setRoot(page);
+            stage.getScene().setRoot(parent);
         }
         stage.sizeToScene();
         //stage.setResizable(false);
         stage.show();
-        return page;
+        return loader.getController();
     }
 
-    public static Parent loadFXML(String fxml) throws IOException {
-        return FXMLLoader.load(Main.class.getResource("View/"+fxml+".fxml"));
+    public static FXMLLoader loadFXML(String fxml) throws IOException {
+        return new FXMLLoader(Main.class.getResource("View/"+fxml+".fxml"));
     }
 
     public static void showError(String text, long durationInMSec) {
