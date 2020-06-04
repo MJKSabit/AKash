@@ -9,16 +9,12 @@ public class RequestHandler {
 
     public static final String REQUEST_TYPE = "requestType";
     private static final String RESPONSE_TYPE = "responseType";
+    private static final String RESPONSE_SUCCESS = "success";
 
     private static final String RESPONSE_UNKNOWN = "unknown";
 
     private static final String REQUEST_LOGIN = "login";
-    private static final String RESPONSE_LOGIN_SUCCESS = "loginsuccess";
-    private static final String RESPONSE_LOGIN_FAILED = "loginfailed";
-
     private static final String REQUEST_SIGNUP = "signup";
-    private static final String RESPONSE_SIGNUP_SUCCESS = "signupsuccess";
-    private static final String RESPONSE_SIGNUP_FAILED = "signupfailed";
 
 
 
@@ -47,8 +43,9 @@ public class RequestHandler {
         boolean result = DBModel.getInstance().createUser(mobile, password, name);
 
         request.remove(REQUEST_TYPE);
-        if(result) request.put(RESPONSE_TYPE, RESPONSE_SIGNUP_SUCCESS);
-        else request.put(RESPONSE_TYPE, RESPONSE_SIGNUP_FAILED);
+        request.put(RESPONSE_TYPE, REQUEST_SIGNUP);
+
+        request.put(RESPONSE_SUCCESS, result);
 
         return request.toString();
     }
@@ -61,8 +58,8 @@ public class RequestHandler {
 
         User user = DBModel.getInstance().getUser(mobile, password);
 
-        if (user == null)  response.put(RESPONSE_TYPE, RESPONSE_LOGIN_FAILED);
-        else response.put(RESPONSE_TYPE, RESPONSE_LOGIN_SUCCESS);
+        response.put(RESPONSE_TYPE, REQUEST_LOGIN);
+        response.put(RESPONSE_SUCCESS, user != null);
 
         return response.toString();
     }

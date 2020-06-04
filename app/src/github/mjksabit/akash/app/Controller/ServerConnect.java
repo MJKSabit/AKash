@@ -1,12 +1,12 @@
 package github.mjksabit.akash.app.Controller;
 
+import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.RequestAction;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.net.ConnectException;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.concurrent.TimeoutException;
 
 public class ServerConnect implements Closeable{
     private static final int PORT = 26979;
@@ -36,7 +36,12 @@ public class ServerConnect implements Closeable{
             out = new BufferedWriter(new OutputStreamWriter(outputStream));
 
             responseListener = new ResponseListener(in);
-        } catch (IOException e) {
+        }
+        catch (ConnectException e) {
+            // Connection Error
+            Main.showError("Can not connect to Server", 2000);
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -44,11 +49,6 @@ public class ServerConnect implements Closeable{
     public static ServerConnect getInstance() {
         if (instance == null)
             instance = new ServerConnect();
-
-        if (!instance.socket.isConnected()) {
-            instance.close();
-            instance = null;
-        }
 
         return instance;
     }
@@ -65,6 +65,11 @@ public class ServerConnect implements Closeable{
 
     public void waitForResponse(String responseType, RequestAction action) {
         responseListener.addResponseKeyword(responseType, action);
+        if(socket.isConnected()) {
+            responseListener.startExplicitListening();
+        } else {
+            Main.showError("Not Connected to the Server", 2000);
+        }
     }
 
     public void stopListeningResponse (String responseType) {

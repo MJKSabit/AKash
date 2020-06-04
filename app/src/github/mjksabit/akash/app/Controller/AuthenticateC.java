@@ -72,8 +72,8 @@ public class AuthenticateC {
 
         request.logInRequest(mobile, password);
 
-        textLoginMobileNo.setText("");
-        textLogInPassword.setText("");
+//        textLoginMobileNo.setText("");
+//        textLogInPassword.setText("");
     }
 
     void setLogInCredentials(String mobile, String password) {

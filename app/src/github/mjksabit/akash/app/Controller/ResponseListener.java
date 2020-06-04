@@ -2,7 +2,6 @@ package github.mjksabit.akash.app.Controller;
 
 import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.RequestAction;
-import javafx.scene.layout.Pane;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +10,8 @@ import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ResponseListener implements Runnable {
 
@@ -19,14 +20,20 @@ public class ResponseListener implements Runnable {
     private BufferedReader in = null;
     ServerConnect server = null;
     private boolean continueListening;
+    private Thread listenerThread;
 
     private Map<String, RequestAction> responseMap;
 
     public ResponseListener(BufferedReader in) {
         this.in = in;
         responseMap = new HashMap<>();
-        continueListening = true;
-        new Thread(this).start();
+        listenerThread = null;
+    }
+
+    public void startExplicitListening() {
+        if(listenerThread==null)
+            listenerThread = new Thread(this); // make listen
+        listenerThread.start();
     }
 
     // Look For Response
@@ -49,11 +56,9 @@ public class ResponseListener implements Runnable {
 
     @Override
     public void run() {
-        while (continueListening) {
+        continueListening = true;
+        while (continueListening && !responseMap.isEmpty()) {
             try {
-                // No response to handle...
-//                if (responseMap.isEmpty()) continue;
-
                 String response = in.readLine();
                 System.out.println(response);
 
@@ -62,7 +67,7 @@ public class ResponseListener implements Runnable {
 
                 if(responseMap.containsKey(responseType)) {
                     responseMap.get(responseType).handle(object);
-                    responseMap.clear();
+                    responseMap.remove(responseType);
                 }
                 else {
                     Main.showError("Unknown Response...", 1000);
@@ -75,5 +80,6 @@ public class ResponseListener implements Runnable {
                 e.printStackTrace();
             }
         }
+        listenerThread = null;
     }
 }
