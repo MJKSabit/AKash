@@ -15,17 +15,23 @@ public class ApplicationC {
 
     @FXML
     public void initialize() {
-        request = new ApplicationRequest();
+        request = new ApplicationRequest(this);
 
         mainTabPane.getSelectionModel().selectedItemProperty().addListener((oldValue, oldTab, newTab) -> {
             if (newTab.textProperty().get().equals("Transactions")) {
                 selectTransactionTab();
+            } else if (newTab.textProperty().get().equals("Notification")) {
+                selectNotificationTab();
             }
         });
     }
 
     private void selectTransactionTab() {
         System.out.println("Transaction Selected...");
+    }
+
+    private void selectNotificationTab() {
+        System.out.println("Notification Selected...");
     }
 
     public void setUser(String mobile, String password, String name) {
@@ -127,7 +133,7 @@ public class ApplicationC {
 
     @FXML
     void showBalance(ActionEvent event) {
-
+        request.balanceRequest();
     }
 
     @FXML

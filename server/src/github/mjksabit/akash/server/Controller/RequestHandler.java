@@ -7,6 +7,8 @@ import org.json.JSONObject;
 
 public class RequestHandler {
 
+    private User loggedInUser = null;
+
     public static final String REQUEST_TYPE = "requestType";
     private static final String RESPONSE_TYPE = "responseType";
     private static final String RESPONSE_SUCCESS = "success";
@@ -15,8 +17,7 @@ public class RequestHandler {
 
     private static final String REQUEST_LOGIN = "login";
     private static final String REQUEST_SIGNUP = "signup";
-    private static final String REQUEST_HOMEPAGE = "homepage";
-
+    private static final String REQUEST_BALANCE = "balance";
 
 
     public String handle(JSONObject request) throws JSONException {
@@ -29,14 +30,23 @@ public class RequestHandler {
                 return logInRequest(request);
             case REQUEST_SIGNUP:
                 return signUpRequest(request);
-            case REQUEST_HOMEPAGE:
-//                return homePageRequest(request);
+            case REQUEST_BALANCE:
+                return balanceRequest(request);
             default:
                 JSONObject response = new JSONObject();
                 response.put(RESPONSE_TYPE, requestType);
                 response.put(RESPONSE_SUCCESS, false);
                 return response.toString();
         }
+    }
+
+    private String balanceRequest(JSONObject request) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(RESPONSE_TYPE, request.getString(REQUEST_TYPE));
+        jsonObject.put(RESPONSE_SUCCESS, true);
+        jsonObject.put("balance", loggedInUser.getBalance());
+
+        return jsonObject.toString();
     }
 
     private String signUpRequest(JSONObject request) throws JSONException {
@@ -67,6 +77,7 @@ public class RequestHandler {
 
         if(user!=null) {
             response.put("name", user.getName());
+            loggedInUser = user;
         }
 
         return response.toString();
