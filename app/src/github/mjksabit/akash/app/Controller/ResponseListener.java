@@ -1,6 +1,8 @@
 package github.mjksabit.akash.app.Controller;
 
+import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.RequestAction;
+import javafx.scene.layout.Pane;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,6 +51,9 @@ public class ResponseListener implements Runnable {
     public void run() {
         while (continueListening) {
             try {
+                // No response to handle...
+//                if (responseMap.isEmpty()) continue;
+
                 String response = in.readLine();
                 System.out.println(response);
 
@@ -57,12 +62,14 @@ public class ResponseListener implements Runnable {
 
                 if(responseMap.containsKey(responseType)) {
                     responseMap.get(responseType).handle(object);
+                    responseMap.clear();
                 }
                 else {
-                    System.out.println("Unknown Response...");
+                    Main.showError((Pane) Main.stage.getScene().getRoot(), "Unknown Response...", 1000);
                 }
             } catch (SocketTimeoutException e) {
                 System.out.println("Server timeout...");
+                System.out.println(responseMap.size());
             }
             catch (IOException | JSONException e) {
                 e.printStackTrace();

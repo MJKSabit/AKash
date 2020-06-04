@@ -16,6 +16,12 @@ public class RequestHandler {
     private static final String RESPONSE_LOGIN_SUCCESS = "loginsuccess";
     private static final String RESPONSE_LOGIN_FAILED = "loginfailed";
 
+    private static final String REQUEST_SIGNUP = "signup";
+    private static final String RESPONSE_SIGNUP_SUCCESS = "signupsuccess";
+    private static final String RESPONSE_SIGNUP_FAILED = "signupfailed";
+
+
+
     public String handle(JSONObject request) throws JSONException {
         System.out.println(request.toString());
 
@@ -24,11 +30,27 @@ public class RequestHandler {
         switch (requestType) {
             case REQUEST_LOGIN:
                 return logInRequest(request);
+            case REQUEST_SIGNUP:
+                return signUpRequest(request);
             default:
                 JSONObject response = new JSONObject();
                 response.put(RESPONSE_TYPE, RESPONSE_UNKNOWN);
                 return response.toString();
         }
+    }
+
+    private String signUpRequest(JSONObject request) throws JSONException {
+        String name = request.getString("name");
+        String password = request.getString("password");
+        String mobile = request.getString("mobile");
+
+        boolean result = DBModel.getInstance().createUser(mobile, password, name);
+
+        request.remove(REQUEST_TYPE);
+        if(result) request.put(RESPONSE_TYPE, RESPONSE_SIGNUP_SUCCESS);
+        else request.put(RESPONSE_TYPE, RESPONSE_SIGNUP_FAILED);
+
+        return request.toString();
     }
 
     private String logInRequest(JSONObject request) throws JSONException {

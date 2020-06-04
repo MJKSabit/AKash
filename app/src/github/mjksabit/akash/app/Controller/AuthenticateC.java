@@ -22,6 +22,7 @@ public class AuthenticateC {
     @FXML
     public void initialize() {
         backToLogIn(null);
+
         request = new Request();
     }
 
@@ -79,6 +80,11 @@ public class AuthenticateC {
         textLogInPassword.setText("");
     }
 
+    void setLogInCredentials(String mobile, String password) {
+        textLoginMobileNo.setText(mobile);
+        textLogInPassword.setText(password);
+    }
+
     @FXML
     void showSignUpPane(ActionEvent event) {
         pane_signup.setVisible(true);
@@ -100,6 +106,11 @@ public class AuthenticateC {
             return;
         }
 
+        request.signUpRequest(mobile, password, name, this);
+
+        textSignUpName.setText("");
+        textSignUpPassword.setText("");
+        textSignUpMobileNo.setText("");
     }
 
 }

@@ -59,7 +59,7 @@ public class Main extends Application {
         return true;
     }
 
-    private Parent replaceSceneContent(String fxml) throws Exception {
+    public static Parent replaceSceneContent(String fxml) throws Exception {
         stage.setResizable(true);
         Parent page = (Parent) FXMLLoader.load(Main.class.getResource("View/"+fxml+".fxml"), null, new JavaFXBuilderFactory());
         Scene scene = stage.getScene();
@@ -79,7 +79,7 @@ public class Main extends Application {
         Label toast = new Label(text);
         toast.setPrefWidth(rootPane.getWidth());
         toast.setWrapText(true);
-        toast.setStyle("-fx-background-color: #e70c44; -fx-text-fill: #f0f8ff; -fx-padding: 20px; -fx-alignment: center; ");
+        toast.setStyle("-fx-background-color: #ff0e4d; -fx-text-fill: #f0f8ff; -fx-padding: 20px; -fx-alignment: center; ");
         showNotification(rootPane, toast, durationInMSec);
     }
 
@@ -92,9 +92,11 @@ public class Main extends Application {
     }
 
     private static void showNotification(Pane rootPane, Node node, long duration) {
-        JFXSnackbar snackbar = new JFXSnackbar(rootPane);
-        JFXSnackbar.SnackbarEvent eventToast = new JFXSnackbar.SnackbarEvent(node, new Duration(duration), null);
-        snackbar.enqueue(eventToast);
+        Platform.runLater( () -> {
+            JFXSnackbar snackbar = new JFXSnackbar(rootPane);
+            JFXSnackbar.SnackbarEvent eventToast = new JFXSnackbar.SnackbarEvent(node, new Duration(duration), null);
+            snackbar.enqueue(eventToast);
+        } );
     }
 
     public static void main(String[] args) {
