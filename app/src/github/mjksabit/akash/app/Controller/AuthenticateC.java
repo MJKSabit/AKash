@@ -1,20 +1,16 @@
 package github.mjksabit.akash.app.Controller;
 
 import com.jfoenix.controls.*;
-import com.jfoenix.validation.base.ValidatorBase;
 import github.mjksabit.akash.app.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class AuthenticateC {
 
-    private Request request = null;
+    private AuthenticateRequest request = null;
 
     @FXML
     private AnchorPane rootPane;
@@ -23,7 +19,7 @@ public class AuthenticateC {
     public void initialize() {
         backToLogIn(null);
 
-        request = new Request();
+        request = new AuthenticateRequest(this);
     }
 
     @FXML
@@ -70,7 +66,7 @@ public class AuthenticateC {
             Stage stage = (Stage) rootPane.getScene().getWindow();
 
 //            JFXDialog dialog = new JFXDialog();
-            Main.showError(rootPane, "Empty Text Fields...", 2000);
+            Main.showError("Empty Text Fields...", 2000);
             return;
         }
 
@@ -102,11 +98,11 @@ public class AuthenticateC {
 
         if (mobile.isEmpty() || password.isEmpty() || name.isEmpty()) {
 //            Stage stage = (Stage) rootPane.getScene().getWindow();
-            Main.showError(rootPane, "Empty Text Fields...", 2000);
+            Main.showError("Empty Text Fields...", 2000);
             return;
         }
 
-        request.signUpRequest(mobile, password, name, this);
+        request.signUpRequest(mobile, password, name);
 
         textSignUpName.setText("");
         textSignUpPassword.setText("");

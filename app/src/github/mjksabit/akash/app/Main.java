@@ -75,7 +75,8 @@ public class Main extends Application {
         return page;
     }
 
-    public static void showError(Pane rootPane, String text, long durationInMSec) {
+    public static void showError(String text, long durationInMSec) {
+        Pane rootPane = (Pane) stage.getScene().getRoot();
         Label toast = new Label(text);
         toast.setPrefWidth(rootPane.getWidth());
         toast.setWrapText(true);
@@ -83,7 +84,8 @@ public class Main extends Application {
         showNotification(rootPane, toast, durationInMSec);
     }
 
-    public static void showSuccess(Pane rootPane, String text, long duration) {
+    public static void showSuccess(String text, long duration) {
+        Pane rootPane = (Pane) stage.getScene().getRoot();
         Label toast = new Label(text);
         toast.setPrefWidth(rootPane.getWidth());
         toast.setWrapText(true);

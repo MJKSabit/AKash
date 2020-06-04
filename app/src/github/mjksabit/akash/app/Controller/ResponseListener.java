@@ -65,7 +65,7 @@ public class ResponseListener implements Runnable {
                     responseMap.clear();
                 }
                 else {
-                    Main.showError((Pane) Main.stage.getScene().getRoot(), "Unknown Response...", 1000);
+                    Main.showError("Unknown Response...", 1000);
                 }
             } catch (SocketTimeoutException e) {
                 System.out.println("Server timeout...");

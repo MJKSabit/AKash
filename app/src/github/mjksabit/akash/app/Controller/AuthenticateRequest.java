@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Request {
+public class AuthenticateRequest {
     private static final String REQUEST_TYPE = "requestType";
 
     private static final String REQUEST_LOGIN = "login";
@@ -17,14 +17,12 @@ public class Request {
     private static final String RESPONSE_SIGNUP_SUCCESS = "signupsuccess";
     private static final String RESPONSE_SIGNUP_FAILED = "signupfailed";
 
-
-    ServerConnect serverConnect = null;
-
-    public Request() {
-        serverConnect = ServerConnect.getInstance();
+    AuthenticateC requester;
+    public AuthenticateRequest(AuthenticateC requester) {
+        this.requester = requester;
     }
 
-    public void signUpRequest(String mobileNo, String password, String name, AuthenticateC requester) {
+    public void signUpRequest(String mobileNo, String password, String name) {
         JSONObject request = new JSONObject();
 
         try {
@@ -37,10 +35,10 @@ public class Request {
             e.printStackTrace();
         }
 
-        serverConnect.sendRequest(request);
+        ServerConnect.getInstance().sendRequest(request);
 
-        serverConnect.waitForResponse(RESPONSE_SIGNUP_SUCCESS, (json) -> {
-            Main.showSuccess((Pane) Main.stage.getScene().getRoot(), "Sign Up Success" , 2000);
+        ServerConnect.getInstance().waitForResponse(RESPONSE_SIGNUP_SUCCESS, (json) -> {
+            Main.showSuccess("Sign Up Success" , 2000);
 
             Platform.runLater(() -> {
                 requester.backToLogIn(null);
@@ -48,8 +46,8 @@ public class Request {
             });
         });
 
-        serverConnect.waitForResponse(RESPONSE_SIGNUP_FAILED, (json) -> {
-            Main.showSuccess((Pane) Main.stage.getScene().getRoot(), "Sign Up Failed" , 2000);
+        ServerConnect.getInstance().waitForResponse(RESPONSE_SIGNUP_FAILED, (json) -> {
+            Main.showSuccess("Sign Up Failed" , 2000);
         });
     }
 
@@ -66,14 +64,14 @@ public class Request {
             e.printStackTrace();
         }
 
-        serverConnect.sendRequest(request);
+        ServerConnect.getInstance().sendRequest(request);
 
-        serverConnect.waitForResponse(RESPONSE_LOGIN_SUCCESS, (json) ->  {
-            Main.showSuccess((Pane) Main.stage.getScene().getRoot(), "Log In Success" , 2000);
+        ServerConnect.getInstance().waitForResponse(RESPONSE_LOGIN_SUCCESS, (json) ->  {
+            Main.showSuccess("Log In Success" , 2000);
         });
 
-        serverConnect.waitForResponse(RESPONSE_LOGIN_FAILED, (json) ->  {
-            Main.showError((Pane) Main.stage.getScene().getRoot(), "Another account exists with this number" , 2000);
+        ServerConnect.getInstance().waitForResponse(RESPONSE_LOGIN_FAILED, (json) ->  {
+            Main.showError("Another account exists with this number" , 2000);
         });
     }
 }
