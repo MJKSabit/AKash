@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #D66;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.akash.app.Controller.AuthenticateC">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #D66;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.akash.app.Controller.AuthenticateC">
    <children>
       <Label layoutX="61.0" layoutY="14.0" prefHeight="89.0" prefWidth="129.0" text="AKash" textFill="WHITE">
          <font>
@@ -17,19 +17,19 @@
       </Label>
       <Pane fx:id="pane_login" layoutX="233.0" prefHeight="398.0" prefWidth="369.0" style="-fx-background-color: #FDD;">
          <children>
-            <JFXTextField fx:id="textLoginMobileNo" focusColor="#ff8b80" layoutX="85.0" layoutY="66.0" prefHeight="30.0" prefWidth="200.0" promptText="Mobile No" unFocusColor="#8a8181" />
-            <JFXPasswordField fx:id="textLogInPassword" focusColor="#ff8e84" layoutX="85.0" layoutY="128.0" prefHeight="30.0" prefWidth="200.0" promptText="Password" unFocusColor="#9c9c9c" />
+            <JFXTextField fx:id="textLoginMobileNo" focusColor="#ff8b80" labelFloat="true" layoutX="85.0" layoutY="66.0" prefHeight="30.0" prefWidth="200.0" promptText="Mobile No" unFocusColor="#8a8181" />
+            <JFXPasswordField fx:id="textLogInPassword" focusColor="#ff8e84" labelFloat="true" layoutX="85.0" layoutY="128.0" prefHeight="30.0" prefWidth="200.0" promptText="Password" unFocusColor="#9c9c9c" />
             <JFXButton fx:id="buttonLogIn" layoutX="85.0" layoutY="196.0" onAction="#logInRequest" prefHeight="30.0" prefWidth="200.0" ripplerFill="#e44b3d" style="-fx-background-color: #e44b3d33;" text="Log in" />
             <JFXButton layoutX="85.0" layoutY="308.0" onAction="#showSignUpPane" prefHeight="30.0" prefWidth="200.0" text="Don't Have an Account?" textFill="#1c4797" />
          </children>
       </Pane>
       <Pane fx:id="pane_signup" disable="true" layoutX="233.0" prefHeight="398.0" prefWidth="369.0" style="-fx-background-color: #FDD;" visible="false">
          <children>
-            <JFXTextField fx:id="textSignUpMobileNo" focusColor="#ff8b80" layoutX="85.0" layoutY="104.0" prefHeight="30.0" prefWidth="200.0" promptText="Mobile No" unFocusColor="#8a8181" />
-            <JFXPasswordField fx:id="textSignUpPassword" focusColor="#ff8e84" layoutX="85.0" layoutY="159.0" prefHeight="30.0" prefWidth="200.0" promptText="Password" unFocusColor="#9c9c9c" />
+            <JFXTextField fx:id="textSignUpName" focusColor="#ff8b80" labelFloat="true" layoutX="85.0" layoutY="45.0" prefHeight="30.0" prefWidth="200.0" promptText="Name" unFocusColor="#8a8181" />
+            <JFXTextField fx:id="textSignUpMobileNo" focusColor="#ff8b80" labelFloat="true" layoutX="85.0" layoutY="104.0" prefHeight="30.0" prefWidth="200.0" promptText="Mobile No" unFocusColor="#8a8181" />
+            <JFXPasswordField fx:id="textSignUpPassword" focusColor="#ff8e84" labelFloat="true" layoutX="85.0" layoutY="159.0" prefHeight="30.0" prefWidth="200.0" promptText="Password" unFocusColor="#9c9c9c" />
             <JFXButton layoutX="85.0" layoutY="227.0" onAction="#signUpRequest" prefHeight="30.0" prefWidth="200.0" ripplerFill="#e44b3d" style="-fx-background-color: #e44b3d33;" text="Sign Up" />
             <JFXButton layoutX="85.0" layoutY="308.0" onAction="#backToLogIn" prefHeight="30.0" prefWidth="200.0" text="Have an Account? Log in" textFill="#1c4797" />
-            <JFXTextField fx:id="textSignUpName" focusColor="#ff8b80" layoutX="85.0" layoutY="45.0" prefHeight="30.0" prefWidth="200.0" promptText="Name" unFocusColor="#8a8181" />
          </children>
       </Pane>
    </children>

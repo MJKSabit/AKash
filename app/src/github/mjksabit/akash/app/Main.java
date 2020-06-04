@@ -1,16 +1,22 @@
 package github.mjksabit.akash.app;
 
+import com.jfoenix.controls.JFXSnackbar;
 import github.mjksabit.akash.app.Controller.ServerConnect;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class Main extends Application {
 
@@ -67,6 +73,28 @@ public class Main extends Application {
         stage.sizeToScene();
         //stage.setResizable(false);
         return page;
+    }
+
+    public static void showError(Pane rootPane, String text, long durationInMSec) {
+        Label toast = new Label(text);
+        toast.setPrefWidth(rootPane.getWidth());
+        toast.setWrapText(true);
+        toast.setStyle("-fx-background-color: #e70c44; -fx-text-fill: #f0f8ff; -fx-padding: 20px; -fx-alignment: center; ");
+        showNotification(rootPane, toast, durationInMSec);
+    }
+
+    public static void showSuccess(Pane rootPane, String text, long duration) {
+        Label toast = new Label(text);
+        toast.setPrefWidth(rootPane.getWidth());
+        toast.setWrapText(true);
+        toast.setStyle("-fx-background-color: #00ba35; -fx-text-fill: #f0f8ff; -fx-padding: 20px; -fx-alignment: center; ");
+        showNotification(rootPane, toast, duration);
+    }
+
+    private static void showNotification(Pane rootPane, Node node, long duration) {
+        JFXSnackbar snackbar = new JFXSnackbar(rootPane);
+        JFXSnackbar.SnackbarEvent eventToast = new JFXSnackbar.SnackbarEvent(node, new Duration(duration), null);
+        snackbar.enqueue(eventToast);
     }
 
     public static void main(String[] args) {

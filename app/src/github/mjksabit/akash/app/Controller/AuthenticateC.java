@@ -1,16 +1,23 @@
 package github.mjksabit.akash.app.Controller;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
+import com.jfoenix.validation.base.ValidatorBase;
+import github.mjksabit.akash.app.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class AuthenticateC {
 
     private Request request = null;
+
+    @FXML
+    private AnchorPane rootPane;
 
     @FXML
     public void initialize() {
@@ -58,6 +65,14 @@ public class AuthenticateC {
         mobile = textLoginMobileNo.getText();
         password = textLogInPassword.getText();
 
+        if (mobile.isEmpty() || password.isEmpty()) {
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+
+//            JFXDialog dialog = new JFXDialog();
+            Main.showError(rootPane, "Empty Text Fields...", 2000);
+            return;
+        }
+
         request.logInRequest(mobile, password);
 
         textLoginMobileNo.setText("");
@@ -75,6 +90,15 @@ public class AuthenticateC {
 
     @FXML
     void signUpRequest(ActionEvent event) {
+        String mobile = textSignUpMobileNo.getText();
+        String name = textSignUpName.getText();
+        String password = textSignUpPassword.getText();
+
+        if (mobile.isEmpty() || password.isEmpty() || name.isEmpty()) {
+//            Stage stage = (Stage) rootPane.getScene().getWindow();
+            Main.showError(rootPane, "Empty Text Fields...", 2000);
+            return;
+        }
 
     }
 
