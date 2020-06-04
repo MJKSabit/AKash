@@ -76,7 +76,7 @@ public class ResponseListener implements Runnable {
                 System.out.println("Server timeout...");
                 System.out.println(responseMap.size());
             }
-            catch (IOException | JSONException e) {
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }

@@ -4,5 +4,5 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public interface RequestAction {
-    public void handle(JSONObject param) throws JSONException;
+    public void handle(JSONObject param) throws Exception;
 }

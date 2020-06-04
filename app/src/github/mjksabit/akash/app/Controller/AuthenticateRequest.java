@@ -71,6 +71,7 @@ public class AuthenticateRequest {
 
             if (success){
                 Main.showSuccess("Log In Success" , 2000);
+                Platform.runLater(() -> Main.replaceSceneContent("application"));
             } else {
                 Main.showError("Invalid Username/Password" , 2000);
             }

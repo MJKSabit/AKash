@@ -51,15 +51,20 @@ public class Main extends Application {
             e.printStackTrace();
             return false;
         }
-        stage.show();
+//        stage.show();
         return true;
     }
 
-    public static Parent replaceSceneContent(String fxml) throws Exception {
+    public static Parent replaceSceneContent(String fxml){
         stage.setResizable(true);
-        Parent page = loadFXML(fxml);
+        Parent page = null;
+        try {
+            page = loadFXML(fxml);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Scene scene = stage.getScene();
-        if (scene == null) {
+        if (scene == null || page == null) {
             scene = new Scene(page);
 //            scene.getStylesheets().add(Main.class.getResource("demo.css").toExternalForm());
             stage.setScene(scene);
@@ -68,6 +73,7 @@ public class Main extends Application {
         }
         stage.sizeToScene();
         //stage.setResizable(false);
+        stage.show();
         return page;
     }
 

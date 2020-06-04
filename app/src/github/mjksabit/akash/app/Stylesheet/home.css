@@ -1,0 +1,4 @@
+.operationButton:hover {
+    -fx-background-color: #cbcbcb;
+    -fx-background-radius: 10px;
+}

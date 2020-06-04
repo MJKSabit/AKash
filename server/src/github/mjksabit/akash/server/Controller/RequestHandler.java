@@ -15,6 +15,7 @@ public class RequestHandler {
 
     private static final String REQUEST_LOGIN = "login";
     private static final String REQUEST_SIGNUP = "signup";
+    private static final String REQUEST_HOMEPAGE = "homepage";
 
 
 
@@ -28,9 +29,12 @@ public class RequestHandler {
                 return logInRequest(request);
             case REQUEST_SIGNUP:
                 return signUpRequest(request);
+            case REQUEST_HOMEPAGE:
+//                return homePageRequest(request);
             default:
                 JSONObject response = new JSONObject();
-                response.put(RESPONSE_TYPE, RESPONSE_UNKNOWN);
+                response.put(RESPONSE_TYPE, requestType);
+                response.put(RESPONSE_SUCCESS, false);
                 return response.toString();
         }
     }
@@ -63,4 +67,8 @@ public class RequestHandler {
 
         return response.toString();
     }
+
+//    private String homePageRequest(JSONObject request) throws JSONException {
+//
+//    }
 }
