@@ -116,7 +116,10 @@ public class Application extends Controller {
 
     @FXML
     void donateMoney(ActionEvent event) {
-
+        Stage stage = new Stage();
+        Donate controller = (Donate) Main.newWindowUtility("donate", stage, "Donation");
+        controller.setUser(user);
+        stage.showAndWait();
     }
 
     @FXML
