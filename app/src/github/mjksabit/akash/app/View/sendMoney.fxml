@@ -2,9 +2,9 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
-<?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -39,14 +39,14 @@
          </children>
       </Pane>
       <JFXTextField fx:id="textSendTo" focusColor="#dd6666" labelFloat="true" layoutX="40.0" layoutY="168.0" prefHeight="40.0" prefWidth="200.0" promptText="To" unFocusColor="#ffc2c2" />
+      <JFXTextField fx:id="textAmount" focusColor="#dd6666" labelFloat="true" layoutX="260.0" layoutY="168.0" prefHeight="40.0" prefWidth="100.0" promptText="Amount" unFocusColor="#ffc2c2" />
       <JFXTextField fx:id="textReference" focusColor="#dd6666" labelFloat="true" layoutX="40.0" layoutY="251.0" prefHeight="40.0" prefWidth="320.0" promptText="Reference" unFocusColor="#ffc2c2" />
       <JFXPasswordField fx:id="textPassword" focusColor="#dd6666" labelFloat="true" layoutX="40.0" layoutY="319.0" prefHeight="40.0" prefWidth="320.0" promptText="Password" unFocusColor="#d04040" />
-      <JFXButton fx:id="buttonSend" layoutY="389.0" onDragEntered="#startSendMoneyProgress" onDragExited="#stopSendMoneyProgress" prefHeight="63.0" prefWidth="400.0" ripplerFill="#fc5252" style="-fx-background-color: #D66;" text="Tap and Hold " textFill="WHITE">
+      <JFXButton fx:id="buttonSend" layoutY="389.0" onMousePressed="#startSendMoneyProgress" onMouseReleased="#stopSendMoneyProgress" prefHeight="63.0" prefWidth="400.0" ripplerFill="#fc5252" style="-fx-background-color: #D66;" text="Tap and Hold " textFill="WHITE">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
       </JFXButton>
-      <JFXProgressBar fx:id="sendProgress" layoutY="388.0" prefWidth="400.0" progress="0.4" />
-      <JFXTextField fx:id="textAmount" focusColor="#dd6666" labelFloat="true" layoutX="260.0" layoutY="168.0" prefHeight="40.0" prefWidth="100.0" promptText="Amount" unFocusColor="#ffc2c2" />
+      <ProgressBar fx:id="sendProgress" layoutY="379.0" prefHeight="10.0" prefWidth="400.0" progress="0.0" />
    </children>
 </AnchorPane>

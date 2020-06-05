@@ -41,6 +41,7 @@ public class Application extends Controller {
     public void setUser(String mobile, String password, String name) {
         user = new User(mobile, password, name);
         buttonAccount.setText(name);
+        request.setUser(user);
     }
 
     @FXML
@@ -132,7 +133,10 @@ public class Application extends Controller {
 
     @FXML
     void sendMoney(ActionEvent event) {
-
+        Stage stage = new Stage();
+        SendMoney controller = (SendMoney) Main.newWindowUtility("sendMoney", stage, "Send Money");
+        controller.setUser(user);
+        stage.showAndWait();
     }
 
     @FXML

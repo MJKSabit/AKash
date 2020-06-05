@@ -2,15 +2,20 @@ package github.mjksabit.akash.app.Network;
 
 import com.jfoenix.controls.JFXAlert;
 import github.mjksabit.akash.app.Controller.Application;
+import github.mjksabit.akash.app.Controller.SendMoney;
 import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.Request;
+import github.mjksabit.akash.app.Model.User;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ApplicationRequest extends Request<Application> {
+
+    private User user = null;
 
     public ApplicationRequest(Application requester) {
         super(requester);
@@ -40,5 +45,9 @@ public class ApplicationRequest extends Request<Application> {
                 });
             }
         });
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -93,7 +93,7 @@ public class Main extends Application {
         Controller controller = null;
         stage.initStyle(StageStyle.UTILITY);
         try {
-            FXMLLoader loader = Main.loadFXML("account");
+            FXMLLoader loader = Main.loadFXML(fxml);
             Scene scene = new Scene(loader.load());
 
             controller = loader.getController();
