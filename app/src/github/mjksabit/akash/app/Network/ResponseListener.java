@@ -29,7 +29,7 @@ public class ResponseListener implements Runnable {
     public void startExplicitListening() {
         if(listenerThread==null)
             listenerThread = new Thread(this); // make listen
-        listenerThread.start();
+        if(!listenerThread.isAlive()) listenerThread.start();
     }
 
     // Look For Response

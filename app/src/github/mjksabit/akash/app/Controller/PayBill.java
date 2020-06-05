@@ -18,7 +18,7 @@ import javafx.scene.paint.Color;
 
 import static java.lang.Double.parseDouble;
 
-public class Donate extends Controller {
+public class PayBill extends Controller {
     User user = null;
     SendMoneyRequest request = null;
 
@@ -129,6 +129,6 @@ public class Donate extends Controller {
     }
 
     public void sendMoneyRequest() {
-        request.sendMoney(user, textSendTo.getText(), parseDouble(textAmount.getText()), textReference.getText(), "Donation");
+        request.sendMoney(user, textSendTo.getText(), parseDouble(textAmount.getText()), textReference.getText(), "Bill");
     }
 }

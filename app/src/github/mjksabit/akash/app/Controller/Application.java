@@ -134,7 +134,10 @@ public class Application extends Controller {
 
     @FXML
     void payBill(ActionEvent event) {
-
+        Stage stage = new Stage();
+        PayBill controller = (PayBill) Main.newWindowUtility("payBill", stage, "Pay Bill");
+        controller.setUser(user);
+        stage.showAndWait();
     }
 
     @FXML

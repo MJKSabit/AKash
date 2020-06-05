@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="root" prefHeight="441.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.akash.app.Controller.PayBill">
+   <children>
+      <Pane prefHeight="135.0" prefWidth="400.0" style="-fx-background-color: #D66;">
+         <children>
+            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/icon-big-white.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="121.0" layoutY="22.0" prefHeight="44.0" prefWidth="126.0" text="Pay Bill" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="121.0" layoutY="65.0" prefHeight="44.0" prefWidth="61.0" text="From:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="textSenderNumber" layoutX="183.0" layoutY="65.0" prefHeight="44.0" prefWidth="200.0" text="number" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <JFXTextField fx:id="textSendTo" focusColor="#dd6666" labelFloat="true" layoutX="40.0" layoutY="168.0" prefHeight="40.0" prefWidth="200.0" promptText="Biller Id" unFocusColor="#ffc2c2" />
+      <JFXTextField fx:id="textAmount" focusColor="#dd6666" labelFloat="true" layoutX="260.0" layoutY="168.0" prefHeight="40.0" prefWidth="100.0" promptText="Amount" unFocusColor="#ffc2c2" />
+      <JFXTextField fx:id="textReference" focusColor="#dd6666" labelFloat="true" layoutX="40.0" layoutY="251.0" prefHeight="40.0" prefWidth="320.0" promptText="Bill Id (Optional)" unFocusColor="#ffc2c2" />
+      <JFXPasswordField fx:id="textPassword" focusColor="#dd6666" labelFloat="true" layoutX="40.0" layoutY="319.0" prefHeight="40.0" prefWidth="320.0" promptText="Password" unFocusColor="#d04040" />
+      <JFXButton fx:id="buttonSend" layoutY="389.0" onMousePressed="#startSendMoneyProgress" onMouseReleased="#stopSendMoneyProgress" prefHeight="63.0" prefWidth="400.0" ripplerFill="#fc5252" style="-fx-background-color: #D66;" text="Tap and Hold " textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </JFXButton>
+      <ProgressBar fx:id="sendProgress" layoutY="379.0" prefHeight="10.0" prefWidth="400.0" progress="0.0" />
+   </children>
+</AnchorPane>
