@@ -50,4 +50,8 @@ public class ApplicationRequest extends Request<Application> {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public void loadTransaction(int index, int loadEverytime) {
+
+    }
 }

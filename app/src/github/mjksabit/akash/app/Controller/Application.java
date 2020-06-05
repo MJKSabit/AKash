@@ -16,9 +16,13 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class Application extends Controller {
     User user = null;
     ApplicationRequest request = null;
+
+    ArrayList<Transaction> transactions = new ArrayList<>();
 
     @FXML
     public void initialize() {
@@ -38,7 +42,8 @@ public class Application extends Controller {
     }
 
     private void selectTransactionTab() {
-        System.out.println("Transaction Selected...");
+        transactions.clear();
+        loadMoreTransaction(null);
     }
 
     private void selectNotificationTab() {
@@ -132,9 +137,11 @@ public class Application extends Controller {
         stage.showAndWait();
     }
 
+
+    private static final int loadEverytime = 10;
     @FXML
     void loadMoreTransaction(ActionEvent event) {
-
+        request.loadTransaction(transactions.size(), loadEverytime);
     }
 
     @FXML

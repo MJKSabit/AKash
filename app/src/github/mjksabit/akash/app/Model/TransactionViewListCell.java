@@ -3,11 +3,15 @@ package github.mjksabit.akash.app.Model;
 import github.mjksabit.akash.app.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
@@ -59,19 +63,28 @@ public class TransactionViewListCell extends ListCell<Transaction> {
 
             if (transaction.isCashOut()){
                 textIn.setText("-");
-                textIn.setTextFill(Color.RED);
+                textIn.setStyle("-fx-background-color: #ff4c6b; -fx-background-radius: 5px");
             }
             else {
                 textIn.setText("+");
-                textIn.setTextFill(Color.GREEN);
+                textIn.setStyle("-fx-background-color: #2cff2c; -fx-background-radius: 5px");
             }
 
             textType.setText(transaction.getType());
             textAmount.setText(transaction.getAmount() + "");
 
-            textOtherUser.setText(transaction.getOtherThanMe());
             textId.setText(transaction.getId());
-            textReference.setText(transaction.getReference());
+
+            if(transaction.getOtherThanMe().isEmpty()) {
+                String[] args = transaction.getReference().split(":");
+
+                textOtherUser.setText(args[0]);
+                textReference.setText(args[1]);
+            }
+            else {
+                textOtherUser.setText(transaction.getOtherThanMe());
+                textReference.setText(transaction.getReference());
+            }
 
             setText(null);
             setGraphic(root);
