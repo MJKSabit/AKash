@@ -136,7 +136,7 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <JFXListView fx:id="listTransaction" prefHeight="321.0" prefWidth="478.0" />
+                                <ListView fx:id="listTransaction" prefHeight="321.0" prefWidth="478.0" />
                                 <JFXButton fx:id="buttonTransactionAll" layoutX="478.0" layoutY="-1.0" onAction="#showTransactionAll" prefHeight="53.0" prefWidth="130.0" style="-fx-background-color: #DDD;" text="ALL" AnchorPane.rightAnchor="0.0" />
                                 <JFXButton fx:id="buttonTransactionIn" layoutX="478.0" layoutY="52.0" onAction="#showTransactionIn" prefHeight="53.0" prefWidth="130.0" style="-fx-background-color: #CFC;" text="IN (+)" textFill="#00bc10" AnchorPane.rightAnchor="0.0" />
                                 <JFXButton fx:id="buttonTransactionOut" layoutX="478.0" layoutY="105.0" onAction="#showTransactionOut" prefHeight="53.0" prefWidth="130.0" style="-fx-background-color: #FCC;" text="OUT (-)" textFill="RED" AnchorPane.rightAnchor="0.0" />

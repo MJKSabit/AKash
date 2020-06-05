@@ -4,10 +4,13 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.Controller;
+import github.mjksabit.akash.app.Model.Transaction;
+import github.mjksabit.akash.app.Model.TransactionViewListCell;
 import github.mjksabit.akash.app.Model.User;
 import github.mjksabit.akash.app.Network.ApplicationRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
@@ -28,6 +31,10 @@ public class Application extends Controller {
                 selectNotificationTab();
             }
         });
+
+
+        listTransaction.setCellFactory(transactionListView -> new TransactionViewListCell());
+        listTransaction.getItems().add(new Transaction("1", "1", "1", "1", true, 1));
     }
 
     private void selectTransactionTab() {
@@ -81,7 +88,7 @@ public class Application extends Controller {
     private Tab tabTransactions;
 
     @FXML
-    private JFXListView<HBox> listTransaction;
+    private ListView<Transaction> listTransaction;
 
     @FXML
     private JFXButton buttonTransactionAll;
