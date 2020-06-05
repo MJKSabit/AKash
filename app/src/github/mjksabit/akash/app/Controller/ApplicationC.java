@@ -2,12 +2,20 @@ package github.mjksabit.akash.app.Controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
+import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.io.IOException;
 
 public class ApplicationC {
     User user = null;
@@ -138,7 +146,25 @@ public class ApplicationC {
 
     @FXML
     void showProfile(ActionEvent event) {
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.UTILITY);
+        try {
+            FXMLLoader loader = Main.loadFXML("account");
+            AccountC controller = new AccountC();
+            loader.setController(controller);
 
+            Scene scene = new Scene(loader.load());
+
+            controller.setUser(user);
+            controller.setStage(stage);
+
+            stage.setScene(scene);
+            stage.sizeToScene();
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

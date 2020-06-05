@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: #D66;">
+         <children>
+            <ImageView fitHeight="100.0" fitWidth="88.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/profile.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="textMobileNumber" layoutX="115.0" layoutY="26.0" prefHeight="49.0" prefWidth="262.0" text="Mobile No" textFill="WHITE">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutY="188.0" prefHeight="162.0" prefWidth="400.0">
+         <children>
+            <JFXPasswordField fx:id="textNewPassword" labelFloat="true" layoutX="23.0" layoutY="70.0" prefHeight="34.0" prefWidth="357.0" promptText="New Password">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXPasswordField>
+            <JFXButton layoutY="117.0" onAction="#dialogClose" prefHeight="43.0" prefWidth="200.0" style="-fx-background-color: #FCC;" text="Cancel">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </JFXButton>
+            <JFXButton layoutX="200.0" layoutY="117.0" onAction="#updateUserInfo" prefHeight="43.0" prefWidth="200.0" style="-fx-background-color: #CFC;" text="Change Password">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </JFXButton>
+            <JFXPasswordField fx:id="textOldPassword" labelFloat="true" layoutX="23.0" layoutY="13.0" prefHeight="34.0" prefWidth="357.0" promptText="Old Password">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXPasswordField>
+         </children>
+      </Pane>
+      <Label fx:id="textUserName" layoutX="22.0" layoutY="126.0" prefHeight="49.0" prefWidth="357.0" text="Username">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
