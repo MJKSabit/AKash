@@ -1,8 +1,8 @@
 package github.mjksabit.akash.app.Controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.Controller;
@@ -13,15 +13,13 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.input.DragEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
-import static java.lang.Double.*;
+import static java.lang.Double.parseDouble;
 
-public class SendMoney extends Controller {
+public class MobileRecharge extends Controller {
 
     User user = null;
     SendMoneyRequest request = null;
@@ -36,6 +34,9 @@ public class SendMoney extends Controller {
         sendProgress.setVisible(false);
         request = new SendMoneyRequest(this);
         setRootNode(root);
+
+        textReference.getItems().setAll("Teletalk", "Robi", "Airtel", "Banglalink", "Grameenphone");
+        textReference.getSelectionModel().selectFirst();
     }
 
     @FXML
@@ -48,7 +49,7 @@ public class SendMoney extends Controller {
     private JFXTextField textSendTo;
 
     @FXML
-    private JFXTextField textReference;
+    private JFXComboBox<String> textReference;
 
     @FXML
     private JFXPasswordField textPassword;
@@ -100,12 +101,8 @@ public class SendMoney extends Controller {
     }
 
     boolean validateInput() {
-        return
-                notEmpty(textSendTo) &&
-//                        isInteger(textSendTo) &&
-                        notEmpty(textAmount) &&
-                        isInteger(textAmount) &&
-                        matchPassword(textPassword);
+        return notEmpty(textSendTo) && notEmpty(textAmount) && isInteger(textAmount) &&
+                matchPassword(textPassword);
     }
 
     @FXML
@@ -136,6 +133,9 @@ public class SendMoney extends Controller {
     }
 
     public void sendMoneyRequest() {
-        request.sendMoney(user, textSendTo.getText(), parseDouble(textAmount.getText()), textReference.getText(), "Send Money");
+        request.sendMoney(user, "", parseDouble(textAmount.getText()),
+                textReference.getSelectionModel().getSelectedItem()+":"+textSendTo.getText(),
+                "Mobile Recharge");
     }
+
 }

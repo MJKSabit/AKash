@@ -129,7 +129,10 @@ public class Application extends Controller {
 
     @FXML
     void mobileRecharge(ActionEvent event) {
-
+        Stage stage = new Stage();
+        MobileRecharge controller = (MobileRecharge) Main.newWindowUtility("mobileRecharge", stage, "Mobile Recharge");
+        controller.setUser(user);
+        stage.showAndWait();
     }
 
     @FXML

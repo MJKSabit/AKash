@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="441.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.akash.app.Controller.MobileRecharge">
+   <children>
+      <Pane prefHeight="135.0" prefWidth="400.0" style="-fx-background-color: #D66;">
+         <children>
+            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/icon-big-white.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="121.0" layoutY="22.0" prefHeight="44.0" prefWidth="200.0" text="Mobile Recharge" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="121.0" layoutY="65.0" prefHeight="44.0" prefWidth="61.0" text="From:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="textSenderNumber" layoutX="183.0" layoutY="65.0" prefHeight="44.0" prefWidth="200.0" text="number" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <JFXTextField fx:id="textSendTo" focusColor="#dd6666" labelFloat="true" layoutX="40.0" layoutY="168.0" prefHeight="40.0" prefWidth="200.0" promptText="Mobile No" unFocusColor="#ffc2c2" />
+      <JFXTextField fx:id="textAmount" focusColor="#dd6666" labelFloat="true" layoutX="260.0" layoutY="168.0" prefHeight="40.0" prefWidth="100.0" promptText="Amount" unFocusColor="#ffc2c2" />
+      <JFXPasswordField fx:id="textPassword" focusColor="#dd6666" labelFloat="true" layoutX="40.0" layoutY="319.0" prefHeight="40.0" prefWidth="320.0" promptText="Password" unFocusColor="#d04040" />
+      <JFXButton fx:id="buttonSend" layoutY="389.0" onMousePressed="#startSendMoneyProgress" onMouseReleased="#stopSendMoneyProgress" prefHeight="63.0" prefWidth="400.0" ripplerFill="#fc5252" style="-fx-background-color: #D66;" text="Tap and Hold " textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </JFXButton>
+      <ProgressBar fx:id="sendProgress" layoutY="379.0" prefHeight="10.0" prefWidth="400.0" progress="0.0" />
+      <JFXComboBox fx:id="textReference" focusColor="#dd6666" labelFloat="true" layoutX="40.0" layoutY="248.0" prefHeight="40.0" prefWidth="320.0" promptText="Operator" visibleRowCount="5" unFocusColor="#ffc2c2" />
+   </children>
+</AnchorPane>
