@@ -8,6 +8,8 @@ import github.mjksabit.akash.app.Model.Transaction;
 import github.mjksabit.akash.app.Model.TransactionViewListCell;
 import github.mjksabit.akash.app.Model.User;
 import github.mjksabit.akash.app.Network.ApplicationRequest;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -22,7 +24,13 @@ public class Application extends Controller {
     User user = null;
     ApplicationRequest request = null;
 
-    ArrayList<Transaction> transactions = new ArrayList<>();
+    ObservableList<Transaction> transactions = FXCollections.observableArrayList();
+
+    public void addTransaction(Transaction transaction) {
+        transactions.add(transaction);
+    }
+
+    private int transactionFilter = 0; // All = 0; In = 1; Out = -1
 
     @FXML
     public void initialize() {
@@ -38,7 +46,7 @@ public class Application extends Controller {
 
 
         listTransaction.setCellFactory(transactionListView -> new TransactionViewListCell());
-        listTransaction.getItems().add(new Transaction("1", "1", "1", "1", true, 1));
+        listTransaction.setItems(transactions);
     }
 
     private void selectTransactionTab() {
@@ -141,7 +149,7 @@ public class Application extends Controller {
     private static final int loadEverytime = 10;
     @FXML
     void loadMoreTransaction(ActionEvent event) {
-        request.loadTransaction(transactions.size(), loadEverytime);
+        request.loadTransaction(transactions.size(), loadEverytime, transactionFilter);
     }
 
     @FXML
@@ -183,17 +191,20 @@ public class Application extends Controller {
 
     @FXML
     void showTransactionAll(ActionEvent event) {
-
+        transactionFilter = 0;
+        loadMoreTransaction(null);
     }
 
     @FXML
     void showTransactionIn(ActionEvent event) {
-
+        transactionFilter = +1;
+        loadMoreTransaction(null);
     }
 
     @FXML
     void showTransactionOut(ActionEvent event) {
-
+        transactionFilter = -1;
+        loadMoreTransaction(null);
     }
 
 }
