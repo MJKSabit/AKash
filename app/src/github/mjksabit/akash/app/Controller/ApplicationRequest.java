@@ -1,7 +1,11 @@
 package github.mjksabit.akash.app.Controller;
 
+import com.jfoenix.controls.JFXAlert;
+import github.mjksabit.akash.app.Main;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,8 +34,14 @@ public class ApplicationRequest {
             if (response.getBoolean(RESPONSE_SUCCESS)) {
                 double balance = response.getDouble("balance");
                 Platform.runLater(() -> {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your Account Balance: "+ balance);
-                    alert.showAndWait();
+                    JFXAlert<Label> jfxAlert = new JFXAlert<>(Main.stage);
+                    jfxAlert.setHideOnEscape(true);
+                    Label label = new Label("Your Account Balance: "+ balance);
+                    label.setPadding(new Insets(10));
+                    jfxAlert.setContent(label);
+                    jfxAlert.show();
+//                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your Account Balance: "+ balance);
+//                    alert.showAndWait();
                 });
             }
         });
