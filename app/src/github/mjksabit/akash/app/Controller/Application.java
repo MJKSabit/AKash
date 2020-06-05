@@ -102,8 +102,11 @@ public class Application extends Controller {
     private JFXListView<HBox> listNotification;
 
     @FXML
-    void addMoney(ActionEvent event) {
-
+    void bankTransfer(ActionEvent event) {
+        Stage stage = new Stage();
+        BankTransfer controller = (BankTransfer) Main.newWindowUtility("bankTransfer", stage, "Bank Transfer");
+        controller.setUser(user);
+        stage.showAndWait();
     }
 
     @FXML
