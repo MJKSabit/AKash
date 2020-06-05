@@ -3,6 +3,7 @@ package github.mjksabit.akash.app.Controller;
 import com.jfoenix.controls.*;
 import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.Controller;
+import github.mjksabit.akash.app.Netword.AuthenticateRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
@@ -49,7 +50,7 @@ public class AuthenticateC extends Controller {
     private JFXTextField textSignUpName;
 
     @FXML
-    void backToLogIn(ActionEvent event) {
+    public void backToLogIn(ActionEvent event) {
         pane_login.setVisible(true);
         pane_login.setDisable(false);
 
@@ -58,7 +59,7 @@ public class AuthenticateC extends Controller {
     }
 
     @FXML
-    void logInRequest(ActionEvent event) {
+    public void logInRequest(ActionEvent event) {
         String mobile, password;
 
         mobile = textLoginMobileNo.getText();
@@ -78,13 +79,13 @@ public class AuthenticateC extends Controller {
 //        textLogInPassword.setText("");
     }
 
-    void setLogInCredentials(String mobile, String password) {
+    public void setLogInCredentials(String mobile, String password) {
         textLoginMobileNo.setText(mobile);
         textLogInPassword.setText(password);
     }
 
     @FXML
-    void showSignUpPane(ActionEvent event) {
+    public void showSignUpPane(ActionEvent event) {
         pane_signup.setVisible(true);
         pane_signup.setDisable(false);
 

@@ -5,18 +5,13 @@ import com.jfoenix.controls.JFXListView;
 import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.Controller;
 import github.mjksabit.akash.app.Model.User;
+import github.mjksabit.akash.app.Netword.ApplicationRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
-import java.io.IOException;
 
 public class ApplicationC extends Controller {
     User user = null;

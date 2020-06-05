@@ -1,22 +1,17 @@
-package github.mjksabit.akash.app.Controller;
+package github.mjksabit.akash.app.Netword;
 
+import github.mjksabit.akash.app.Controller.ApplicationC;
+import github.mjksabit.akash.app.Controller.AuthenticateC;
+import github.mjksabit.akash.app.Controller.ServerConnect;
 import github.mjksabit.akash.app.Main;
 import javafx.application.Platform;
-import javafx.scene.layout.Pane;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AuthenticateRequest {
-    private static final String REQUEST_TYPE = "requestType";
-    private static final String RESPONSE_SUCCESS = "success";
+public class AuthenticateRequest extends Request<AuthenticateC> {
 
-    private static final String REQUEST_LOGIN = "login";
-
-    private static final String REQUEST_SIGNUP = "signup";
-
-    AuthenticateC requester;
     public AuthenticateRequest(AuthenticateC requester) {
-        this.requester = requester;
+        super(requester);
     }
 
     public void signUpRequest(String mobileNo, String password, String name) {

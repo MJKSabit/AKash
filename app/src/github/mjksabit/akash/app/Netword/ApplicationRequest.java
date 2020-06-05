@@ -1,24 +1,19 @@
-package github.mjksabit.akash.app.Controller;
+package github.mjksabit.akash.app.Netword;
 
 import com.jfoenix.controls.JFXAlert;
+import github.mjksabit.akash.app.Controller.ApplicationC;
+import github.mjksabit.akash.app.Controller.ServerConnect;
 import github.mjksabit.akash.app.Main;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ApplicationRequest {
-    private static final String REQUEST_TYPE = "requestType";
-    private static final String RESPONSE_SUCCESS = "success";
-
-    private static final String REQUEST_BALANCE = "balance";
-
-    ApplicationC requester;
+public class ApplicationRequest extends Request<ApplicationC> {
 
     public ApplicationRequest(ApplicationC requester) {
-        this.requester = requester;
+        super(requester);
     }
 
     public void balanceRequest() {
