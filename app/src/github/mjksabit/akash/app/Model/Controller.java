@@ -10,7 +10,11 @@ public abstract class Controller {
         this.rootNode = rootNode;
     }
 
-    protected Stage getStage() {
+    public Node getRoot () {
+        return rootNode;
+    }
+
+    public Stage getStage() {
         if(rootNode == null) return null;
         return (Stage) rootNode.getScene().getWindow();
     }

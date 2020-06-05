@@ -8,6 +8,7 @@ public abstract class Request <TypeC extends Controller> {
     protected static final String REQUEST_LOGIN = "login";
     protected static final String REQUEST_SIGNUP = "signup";
     protected static final String REQUEST_CHANGE_PASSWORD = "changepassword";
+    protected static final String REQUEST_SEND_MONEY = "sendmoney";
     
     protected TypeC requester = null;
 
