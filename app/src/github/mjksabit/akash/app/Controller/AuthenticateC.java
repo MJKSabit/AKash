@@ -2,13 +2,14 @@ package github.mjksabit.akash.app.Controller;
 
 import com.jfoenix.controls.*;
 import github.mjksabit.akash.app.Main;
+import github.mjksabit.akash.app.Model.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class AuthenticateC {
+public class AuthenticateC extends Controller {
 
     private AuthenticateRequest request = null;
 
@@ -18,6 +19,7 @@ public class AuthenticateC {
     @FXML
     public void initialize() {
         backToLogIn(null);
+        setRootNode(rootPane);
 
         request = new AuthenticateRequest(this);
     }

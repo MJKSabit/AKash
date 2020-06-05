@@ -3,6 +3,7 @@ package github.mjksabit.akash.app.Controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import github.mjksabit.akash.app.Main;
+import github.mjksabit.akash.app.Model.Controller;
 import github.mjksabit.akash.app.Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +18,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
-public class ApplicationC {
+public class ApplicationC extends Controller {
     User user = null;
     ApplicationRequest request = null;
 
@@ -147,24 +148,9 @@ public class ApplicationC {
     @FXML
     void showProfile(ActionEvent event) {
         Stage stage = new Stage();
-        stage.initStyle(StageStyle.UTILITY);
-        try {
-            FXMLLoader loader = Main.loadFXML("account");
-            AccountC controller = new AccountC();
-            loader.setController(controller);
-
-            Scene scene = new Scene(loader.load());
-
-            controller.setUser(user);
-            controller.setStage(stage);
-
-            stage.setScene(scene);
-            stage.sizeToScene();
-            stage.showAndWait();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        AccountC controller = (AccountC) Main.newWindowUtility("account", stage);
+        controller.setUser(user);
+        stage.showAndWait();
     }
 
     @FXML

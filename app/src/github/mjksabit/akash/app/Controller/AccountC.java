@@ -3,11 +3,13 @@ package github.mjksabit.akash.app.Controller;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import github.mjksabit.akash.app.Main;
+import github.mjksabit.akash.app.Model.Controller;
 import github.mjksabit.akash.app.Model.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.json.JSONException;
@@ -15,10 +17,9 @@ import org.json.JSONObject;
 
 import java.util.Stack;
 
-public class AccountC {
+public class AccountC extends Controller {
 
     User user = null;
-    Stage stage = null;
 
     public void setUser(User user) {
         this.user = user;
@@ -26,9 +27,13 @@ public class AccountC {
         textUserName.setText(user.getName());
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
+    @FXML
+    public void initialize() {
+        super.setRootNode(root);
     }
+
+    @FXML
+    private AnchorPane root;
 
     @FXML
     private Label textMobileNumber;
@@ -44,7 +49,7 @@ public class AccountC {
 
     @FXML
     void dialogClose(ActionEvent event) {
-        stage.close();
+        getStage().close();
     }
 
     private static final String REQUEST_TYPE = "requestType";
@@ -84,7 +89,7 @@ public class AccountC {
                 dialogClose(null);
             }
         } else {
-            Main.showError((Pane)stage.getScene().getRoot(), "Password Mismatch!", 2000);
+            Main.showError((Pane)getStage().getScene().getRoot(), "Password Mismatch!", 2000);
         }
     }
 

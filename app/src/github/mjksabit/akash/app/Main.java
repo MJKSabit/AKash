@@ -1,6 +1,7 @@
 package github.mjksabit.akash.app;
 
 import com.jfoenix.controls.JFXSnackbar;
+import github.mjksabit.akash.app.Model.Controller;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -60,11 +62,8 @@ public class Main extends Application {
         FXMLLoader loader = null;
         Parent parent = null;
 
-        try {
-            loader = loadFXML(fxml);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loader = loadFXML(fxml);
+
 
         try {
             parent = loader.load();
@@ -86,8 +85,26 @@ public class Main extends Application {
         return loader.getController();
     }
 
-    public static FXMLLoader loadFXML(String fxml) throws IOException {
+    public static FXMLLoader loadFXML(String fxml) {
         return new FXMLLoader(Main.class.getResource("View/"+fxml+".fxml"));
+    }
+
+    public static Controller newWindowUtility(String fxml, Stage stage) {
+        Controller controller = null;
+        stage.initStyle(StageStyle.UTILITY);
+        try {
+            FXMLLoader loader = Main.loadFXML("account");
+            Scene scene = new Scene(loader.load());
+
+            controller = loader.getController();
+
+            stage.setScene(scene);
+            stage.sizeToScene();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return controller;
     }
 
     public static void showError(String text, long durationInMSec) {
