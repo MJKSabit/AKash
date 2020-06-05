@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.akash.app.Controller.AccountC" fx:id="root">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.akash.app.Controller.AccountC">
    <children>
       <Pane prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: #D66;">
          <children>
@@ -30,6 +30,16 @@
             </Label>
          </children>
       </Pane>
+      <JFXPasswordField fx:id="textOldPassword" focusColor="#e47373" labelFloat="true" layoutX="22.0" layoutY="138.0" prefHeight="34.0" prefWidth="357.0" promptText="Old Password" unFocusColor="#ffa2a2">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXPasswordField>
+      <JFXPasswordField fx:id="textNewPassword" focusColor="#e47373" labelFloat="true" layoutX="22.0" layoutY="213.0" prefHeight="34.0" prefWidth="357.0" promptText="New Password" unFocusColor="#ffa2a2">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXPasswordField>
       <JFXButton layoutY="300.0" onAction="#dialogClose" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #FCC;" text="Cancel">
          <font>
             <Font size="20.0" />
@@ -40,15 +50,5 @@
             <Font size="20.0" />
          </font>
       </JFXButton>
-      <JFXPasswordField fx:id="textNewPassword" focusColor="#e47373" labelFloat="true" layoutX="22.0" layoutY="213.0" prefHeight="34.0" prefWidth="357.0" promptText="New Password" unFocusColor="#ffa2a2">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXPasswordField>
-      <JFXPasswordField fx:id="textOldPassword" focusColor="#e47373" labelFloat="true" layoutX="22.0" layoutY="138.0" prefHeight="34.0" prefWidth="357.0" promptText="Old Password" unFocusColor="#ffa2a2">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </JFXPasswordField>
    </children>
 </AnchorPane>

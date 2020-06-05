@@ -2,7 +2,6 @@ package github.mjksabit.akash.app.Controller;
 
 import com.jfoenix.controls.*;
 import github.mjksabit.akash.app.Main;
-import github.mjksabit.akash.app.Model.Controller;
 import github.mjksabit.akash.app.Netword.AuthenticateRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

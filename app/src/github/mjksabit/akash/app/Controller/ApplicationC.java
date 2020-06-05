@@ -3,7 +3,6 @@ package github.mjksabit.akash.app.Controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import github.mjksabit.akash.app.Main;
-import github.mjksabit.akash.app.Model.Controller;
 import github.mjksabit.akash.app.Model.User;
 import github.mjksabit.akash.app.Netword.ApplicationRequest;
 import javafx.event.ActionEvent;

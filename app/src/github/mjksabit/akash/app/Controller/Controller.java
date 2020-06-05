@@ -1,4 +1,4 @@
-package github.mjksabit.akash.app.Model;
+package github.mjksabit.akash.app.Controller;
 
 import javafx.scene.Node;
 import javafx.stage.Stage;

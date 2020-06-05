@@ -1,25 +1,20 @@
 package github.mjksabit.akash.app.Controller;
 
 import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
 import github.mjksabit.akash.app.Main;
-import github.mjksabit.akash.app.Model.Controller;
 import github.mjksabit.akash.app.Model.User;
-import javafx.application.Platform;
+import github.mjksabit.akash.app.Netword.AccountRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Stack;
+import javafx.scene.paint.Color;
 
 public class AccountC extends Controller {
 
     User user = null;
+    AccountRequest request = null;
 
     public void setUser(User user) {
         this.user = user;
@@ -30,6 +25,7 @@ public class AccountC extends Controller {
     @FXML
     public void initialize() {
         super.setRootNode(root);
+        request = new AccountRequest(this);
     }
 
     @FXML
@@ -52,9 +48,7 @@ public class AccountC extends Controller {
         getStage().close();
     }
 
-    private static final String REQUEST_TYPE = "requestType";
-    private static final String RESPONSE_SUCCESS = "success";
-    private static final String REQUEST_CHANGE_PASSWORD = "changepassword";
+
 
     @FXML
     void updateUserInfo(ActionEvent event) {
@@ -64,28 +58,10 @@ public class AccountC extends Controller {
             String newPassword = textNewPassword.getText();
             if(newPassword.isEmpty()) {
                 textNewPassword.requestFocus();
+                textNewPassword.setFocusColor(Color.RED);
             }
             else {
-                JSONObject request = new JSONObject();
-                try {
-                    request.put(REQUEST_TYPE, REQUEST_CHANGE_PASSWORD);
-
-                    request.put("oldpassword", oldPassword);
-                    request.put("newpassword", newPassword);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                ServerConnect.getInstance().sendRequest(request);
-
-                ServerConnect.getInstance().waitForResponse(REQUEST_CHANGE_PASSWORD, (response) -> {
-                    if (response.getBoolean(RESPONSE_SUCCESS)) {
-                        Platform.runLater( () -> Main.showSuccess("Password Changed Successfully", 2000));
-                    }
-                    else {
-                        Platform.runLater(() -> Main.showError("Can't Change Password :(", 2000));
-                    }
-                });
-
+                request.changePassword(user, newPassword);
                 dialogClose(null);
             }
         } else {

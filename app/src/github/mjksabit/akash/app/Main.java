@@ -1,7 +1,7 @@
 package github.mjksabit.akash.app;
 
 import com.jfoenix.controls.JFXSnackbar;
-import github.mjksabit.akash.app.Model.Controller;
+import github.mjksabit.akash.app.Controller.Controller;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
