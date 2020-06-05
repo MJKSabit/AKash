@@ -2,14 +2,15 @@ package github.mjksabit.akash.app.Controller;
 
 import com.jfoenix.controls.*;
 import github.mjksabit.akash.app.Main;
-import github.mjksabit.akash.app.Netword.AuthenticateRequest;
+import github.mjksabit.akash.app.Model.Controller;
+import github.mjksabit.akash.app.Network.AuthenticateRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class AuthenticateC extends Controller {
+public class Authenticate extends Controller {
 
     private AuthenticateRequest request = null;
 

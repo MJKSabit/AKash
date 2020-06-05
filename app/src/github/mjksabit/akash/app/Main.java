@@ -1,7 +1,7 @@
 package github.mjksabit.akash.app;
 
 import com.jfoenix.controls.JFXSnackbar;
-import github.mjksabit.akash.app.Controller.Controller;
+import github.mjksabit.akash.app.Model.Controller;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -89,7 +89,7 @@ public class Main extends Application {
         return new FXMLLoader(Main.class.getResource("View/"+fxml+".fxml"));
     }
 
-    public static Controller newWindowUtility(String fxml, Stage stage) {
+    public static Controller newWindowUtility(String fxml, Stage stage, String windowTitle) {
         Controller controller = null;
         stage.initStyle(StageStyle.UTILITY);
         try {
@@ -100,7 +100,7 @@ public class Main extends Application {
 
             stage.setScene(scene);
             stage.sizeToScene();
-
+            stage.setTitle(windowTitle);
         } catch (IOException e) {
             e.printStackTrace();
         }

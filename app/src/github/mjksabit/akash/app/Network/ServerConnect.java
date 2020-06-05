@@ -1,4 +1,4 @@
-package github.mjksabit.akash.app.Controller;
+package github.mjksabit.akash.app.Network;
 
 import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.RequestAction;

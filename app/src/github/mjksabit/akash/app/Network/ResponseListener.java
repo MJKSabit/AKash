@@ -1,17 +1,13 @@
-package github.mjksabit.akash.app.Controller;
+package github.mjksabit.akash.app.Network;
 
 import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.RequestAction;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class ResponseListener implements Runnable {
 

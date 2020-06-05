@@ -3,8 +3,9 @@ package github.mjksabit.akash.app.Controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import github.mjksabit.akash.app.Main;
+import github.mjksabit.akash.app.Model.Controller;
 import github.mjksabit.akash.app.Model.User;
-import github.mjksabit.akash.app.Netword.ApplicationRequest;
+import github.mjksabit.akash.app.Network.ApplicationRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
@@ -12,7 +13,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class ApplicationC extends Controller {
+public class Application extends Controller {
     User user = null;
     ApplicationRequest request = null;
 
@@ -142,7 +143,7 @@ public class ApplicationC extends Controller {
     @FXML
     void showProfile(ActionEvent event) {
         Stage stage = new Stage();
-        AccountC controller = (AccountC) Main.newWindowUtility("account", stage);
+        Account controller = (Account) Main.newWindowUtility("account", stage, "Account Info");
         controller.setUser(user);
         stage.showAndWait();
     }

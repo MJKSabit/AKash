@@ -1,16 +1,16 @@
-package github.mjksabit.akash.app.Netword;
+package github.mjksabit.akash.app.Network;
 
-import github.mjksabit.akash.app.Controller.ApplicationC;
-import github.mjksabit.akash.app.Controller.AuthenticateC;
-import github.mjksabit.akash.app.Controller.ServerConnect;
+import github.mjksabit.akash.app.Controller.Application;
+import github.mjksabit.akash.app.Controller.Authenticate;
 import github.mjksabit.akash.app.Main;
+import github.mjksabit.akash.app.Model.Request;
 import javafx.application.Platform;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AuthenticateRequest extends Request<AuthenticateC> {
+public class AuthenticateRequest extends Request<Authenticate> {
 
-    public AuthenticateRequest(AuthenticateC requester) {
+    public AuthenticateRequest(Authenticate requester) {
         super(requester);
     }
 
@@ -67,7 +67,7 @@ public class AuthenticateRequest extends Request<AuthenticateC> {
             if (success){
                 Main.showSuccess("Log In Success" , 2000);
                 Platform.runLater(() -> {
-                    ApplicationC controller = (ApplicationC) Main.replaceSceneContent("application");
+                    Application controller = (Application) Main.replaceSceneContent("application");
                     try {
                         controller.setUser(mobileNo, password, json.getString("name"));
                     } catch (JSONException e) {

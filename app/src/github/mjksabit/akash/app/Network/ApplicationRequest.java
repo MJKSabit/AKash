@@ -1,18 +1,18 @@
-package github.mjksabit.akash.app.Netword;
+package github.mjksabit.akash.app.Network;
 
 import com.jfoenix.controls.JFXAlert;
-import github.mjksabit.akash.app.Controller.ApplicationC;
-import github.mjksabit.akash.app.Controller.ServerConnect;
+import github.mjksabit.akash.app.Controller.Application;
 import github.mjksabit.akash.app.Main;
+import github.mjksabit.akash.app.Model.Request;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ApplicationRequest extends Request<ApplicationC> {
+public class ApplicationRequest extends Request<Application> {
 
-    public ApplicationRequest(ApplicationC requester) {
+    public ApplicationRequest(Application requester) {
         super(requester);
     }
 

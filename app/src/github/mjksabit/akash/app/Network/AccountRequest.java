@@ -1,16 +1,16 @@
-package github.mjksabit.akash.app.Netword;
+package github.mjksabit.akash.app.Network;
 
-import github.mjksabit.akash.app.Controller.AccountC;
-import github.mjksabit.akash.app.Controller.ServerConnect;
+import github.mjksabit.akash.app.Controller.Account;
 import github.mjksabit.akash.app.Main;
+import github.mjksabit.akash.app.Model.Request;
 import github.mjksabit.akash.app.Model.User;
 import javafx.application.Platform;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AccountRequest extends Request<AccountC> {
+public class AccountRequest extends Request<Account> {
 
-    public AccountRequest(AccountC requester) {
+    public AccountRequest(Account requester) {
         super(requester);
     }
 

@@ -2,8 +2,9 @@ package github.mjksabit.akash.app.Controller;
 
 import com.jfoenix.controls.JFXPasswordField;
 import github.mjksabit.akash.app.Main;
+import github.mjksabit.akash.app.Model.Controller;
 import github.mjksabit.akash.app.Model.User;
-import github.mjksabit.akash.app.Netword.AccountRequest;
+import github.mjksabit.akash.app.Network.AccountRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -11,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-public class AccountC extends Controller {
+public class Account extends Controller {
 
     User user = null;
     AccountRequest request = null;

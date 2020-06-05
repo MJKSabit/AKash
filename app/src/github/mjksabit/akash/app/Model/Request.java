@@ -1,6 +1,4 @@
-package github.mjksabit.akash.app.Netword;
-
-import github.mjksabit.akash.app.Controller.Controller;
+package github.mjksabit.akash.app.Model;
 
 public abstract class Request <TypeC extends Controller> {
     protected static final String REQUEST_TYPE = "requestType";
