@@ -3,15 +3,13 @@ package github.mjksabit.akash.app.Controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import github.mjksabit.akash.app.Main;
-import github.mjksabit.akash.app.Model.Controller;
-import github.mjksabit.akash.app.Model.Transaction;
-import github.mjksabit.akash.app.Model.TransactionViewListCell;
-import github.mjksabit.akash.app.Model.User;
+import github.mjksabit.akash.app.Model.*;
 import github.mjksabit.akash.app.Network.ApplicationRequest;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -25,6 +23,7 @@ public class Application extends Controller {
     ApplicationRequest request = null;
 
     ObservableList<Transaction> transactions = FXCollections.observableArrayList();
+    ObservableList<Notification> notifications = FXCollections.observableArrayList();
 
     public void addTransaction(Transaction transaction) {
         transactions.add(transaction);
@@ -47,6 +46,8 @@ public class Application extends Controller {
 
         listTransaction.setCellFactory(transactionListView -> new TransactionViewListCell());
         listTransaction.setItems(transactions);
+
+        listNotification.setItems(notifications);
     }
 
     private void selectTransactionTab() {
@@ -55,7 +56,7 @@ public class Application extends Controller {
     }
 
     private void selectNotificationTab() {
-        System.out.println("Notification Selected...");
+        notifications.add(new Notification("Loading Notifications..."));
     }
 
     public void setUser(String mobile, String password, String name) {
@@ -119,7 +120,7 @@ public class Application extends Controller {
     private Tab tabNotification;
 
     @FXML
-    private JFXListView<HBox> listNotification;
+    private JFXListView<Notification> listNotification;
 
     @FXML
     void bankTransfer(ActionEvent event) {

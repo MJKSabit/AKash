@@ -68,6 +68,7 @@ public class ApplicationRequest extends Request<Application> {
         ServerConnect.getInstance().sendRequest(request);
         ServerConnect.getInstance().waitForResponse(REQUEST_GET_TRANSACTION, (response) -> {
             if(!response.getBoolean(RESPONSE_SUCCESS)) return;
+
             JSONArray transactions = response.getJSONArray("transactions");
             
             for (int i=0; i<transactions.length(); i++) {
