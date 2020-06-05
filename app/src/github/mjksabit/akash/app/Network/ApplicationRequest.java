@@ -89,4 +89,34 @@ public class ApplicationRequest extends Request<Application> {
             }
         });
     }
+
+    public void loadNotification() {
+        JSONObject request = new JSONObject();
+
+        try {
+            request.put(REQUEST_TYPE, REQUEST_GET_NOTIFICATION);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        ServerConnect.getInstance().sendRequest(request);
+        ServerConnect.getInstance().waitForResponse(REQUEST_GET_NOTIFICATION, (response) -> {
+            Platform.runLater(() -> requester.clearNotifications());
+            if(response.getBoolean(RESPONSE_SUCCESS)) {
+                JSONArray notifications = response.getJSONArray("notifications");
+
+                for (int i=0; i<notifications.length(); i++) {
+                    String text = notifications.getString(i);
+                    Platform.runLater(() -> requester.addNotification(text));
+                }
+
+                if(notifications.length()==0) {
+                    Platform.runLater(() -> Main.showSuccess("No new notifications...", 2000));
+                }
+            }
+            else {
+                Platform.runLater(() -> Main.showError("Error fetching Notifications...", 2000));
+            }
+        });
+    }
 }

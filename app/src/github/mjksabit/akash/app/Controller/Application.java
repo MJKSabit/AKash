@@ -28,6 +28,12 @@ public class Application extends Controller {
     public void addTransaction(Transaction transaction) {
         transactions.add(transaction);
     }
+    public void addNotification(String text) {
+        notifications.add(new Notification(text));
+    }
+    public void clearNotifications() {
+        notifications.clear();
+    }
 
     private int transactionFilter = 0; // All = 0; In = 1; Out = -1
 
@@ -57,6 +63,7 @@ public class Application extends Controller {
 
     private void selectNotificationTab() {
         notifications.add(new Notification("Loading Notifications..."));
+        request.loadNotification();
     }
 
     public void setUser(String mobile, String password, String name) {
