@@ -2,7 +2,6 @@ package github.mjksabit.akash.app.Controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.Controller;
@@ -13,16 +12,13 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.input.DragEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
-import static java.lang.Double.*;
+import static java.lang.Double.parseDouble;
 
-public class SendMoney extends Controller {
-
+public class CashOut extends Controller {
     User user = null;
     SendMoneyRequest request = null;
 
@@ -74,7 +70,7 @@ public class SendMoney extends Controller {
         }
         return true;
     }
-
+    
     boolean isInteger(JFXTextField textField) {
         try{Integer.parseInt(textField.getText());}
         catch (NumberFormatException e) {
@@ -84,7 +80,7 @@ public class SendMoney extends Controller {
         }
         return true;
     }
-
+    
     boolean matchPassword(JFXPasswordField passwordField) {
         if(passwordField.getText().isEmpty()) {
             passwordField.requestFocus();
@@ -100,12 +96,12 @@ public class SendMoney extends Controller {
     }
 
     boolean validateInput() {
-        return
+        return 
                 notEmpty(textSendTo) &&
-                        isInteger(textSendTo) &&
-                        notEmpty(textAmount) &&
-                        isInteger(textAmount) &&
-                        matchPassword(textPassword);
+                isInteger(textSendTo) &&
+                notEmpty(textAmount) &&
+                isInteger(textAmount) &&
+                matchPassword(textPassword);
     }
 
     @FXML
@@ -136,6 +132,6 @@ public class SendMoney extends Controller {
     }
 
     public void sendMoneyRequest() {
-        request.sendMoney(user, textSendTo.getText(), parseDouble(textAmount.getText()), textReference.getText(), "Send Money");
+        request.sendMoney(user, "agent"+textSendTo.getText(), parseDouble(textAmount.getText()), "", "Cash Out");
     }
 }

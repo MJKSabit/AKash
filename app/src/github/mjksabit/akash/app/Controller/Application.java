@@ -108,7 +108,10 @@ public class Application extends Controller {
 
     @FXML
     void cashOut(ActionEvent event) {
-
+        Stage stage = new Stage();
+        CashOut controller = (CashOut) Main.newWindowUtility("cashOut", stage, "Cash Out");
+        controller.setUser(user);
+        stage.showAndWait();
     }
 
     @FXML

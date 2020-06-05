@@ -15,7 +15,7 @@ public class SendMoneyRequest extends Request<Controller> {
         super(requester);
     }
 
-    public void sendMoney(User sender, String receiver, double amount, String reference) {
+    public void sendMoney(User sender, String receiver, double amount, String reference, String type) {
         JSONObject request = new JSONObject();
 
         try {
@@ -24,6 +24,7 @@ public class SendMoneyRequest extends Request<Controller> {
             request.put("receiver", receiver);
             request.put("amount", amount);
             request.put("reference", reference);
+            request.put("type", type);
         } catch (JSONException e) {
             e.printStackTrace();
         }
