@@ -2,6 +2,7 @@ package github.mjksabit.akash.app;
 
 import com.jfoenix.controls.JFXSnackbar;
 import github.mjksabit.akash.app.Model.Controller;
+import github.mjksabit.akash.app.Network.ServerConnect;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 public class Main extends Application {
 
@@ -142,6 +144,11 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        if (args.length>0 && Pattern.matches("\\d+", args[0])) {
+            ServerConnect.PORT = Integer.parseInt(args[0]);
+            System.out.println("Setting PORT: "+ServerConnect.PORT);
+        }
+
         launch(args);
     }
 }

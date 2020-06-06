@@ -9,7 +9,7 @@ import java.net.ConnectException;
 import java.net.Socket;
 
 public class ServerConnect implements Closeable{
-    private static final int PORT = 26979;
+    public static int PORT = 26979;
     private static final String LOCALHOST = "127.0.0.1";
     private static final int TIMEOUT = 10000;
 

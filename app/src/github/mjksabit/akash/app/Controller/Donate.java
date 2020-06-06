@@ -97,7 +97,7 @@ public class Donate extends Controller {
             return false;
         }
 
-        if(!passwordField.getText().equals(user.getPassword())) {
+        if(!user.getPassword().equals(passwordField.getText())) {
             Main.showError((Pane) getRoot(), "Password Mismatch!", 2000);
             return false;
         }
