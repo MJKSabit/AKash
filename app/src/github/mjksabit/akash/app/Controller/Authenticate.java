@@ -4,12 +4,16 @@ import com.jfoenix.controls.*;
 import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.Controller;
 import github.mjksabit.akash.app.Network.AuthenticateRequest;
+import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.regex.Pattern;
 
@@ -54,11 +58,26 @@ public class Authenticate extends Controller {
 
     @FXML
     public void backToLogIn(ActionEvent event) {
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(ANIMATION_TIME), pane_signup);
         pane_login.setVisible(true);
         pane_login.setDisable(false);
 
-        pane_signup.setVisible(false);
-        pane_signup.setDisable(true);
+        translateTransition.setFromX(0);
+        translateTransition.setToX(369);
+        translateTransition.play();
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(ANIMATION_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            Platform.runLater( () -> {
+                pane_signup.setVisible(false);
+                pane_signup.setDisable(true);
+            });
+        }).start();
     }
 
     @FXML
@@ -87,13 +106,28 @@ public class Authenticate extends Controller {
         textLogInPassword.setText(password);
     }
 
+    private final int ANIMATION_TIME = 500;
     @FXML
     public void showSignUpPane(ActionEvent event) {
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(ANIMATION_TIME), pane_signup);
         pane_signup.setVisible(true);
         pane_signup.setDisable(false);
+        translateTransition.setFromX(379);
+        translateTransition.setToX(0);
+        translateTransition.play();
 
-        pane_login.setVisible(false);
-        pane_login.setDisable(true);
+        new Thread(() -> {
+            try {
+                Thread.sleep(ANIMATION_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            Platform.runLater( () -> {
+                pane_login.setVisible(false);
+                pane_login.setDisable(true);
+            });
+        }).start();
     }
 
     @FXML
