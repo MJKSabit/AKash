@@ -30,7 +30,7 @@ public class SendMoneyRequest extends Request<Controller> {
         }
 
         ServerConnect.getInstance().sendRequest(request);
-        ServerConnect.getInstance().waitForResponse(REQUEST_TYPE, (response) -> {
+        ServerConnect.getInstance().waitForResponse(REQUEST_SEND_MONEY, (response) -> {
             if(response.getBoolean(RESPONSE_SUCCESS)) {
                 Platform.runLater(() -> {
                     Main.showSuccess("Transaction Successful!", 2000);

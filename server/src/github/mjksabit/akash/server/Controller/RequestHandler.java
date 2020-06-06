@@ -12,12 +12,17 @@ public class RequestHandler {
     public static final String REQUEST_TYPE = "requestType";
     private static final String RESPONSE_TYPE = "responseType";
     private static final String RESPONSE_SUCCESS = "success";
+    private static final String RESPONSE_INFO = "info";
 
     private static final String RESPONSE_UNKNOWN = "unknown";
 
     private static final String REQUEST_LOGIN = "login";
     private static final String REQUEST_SIGNUP = "signup";
     private static final String REQUEST_BALANCE = "balance";
+    protected static final String REQUEST_CHANGE_PASSWORD = "changepassword";
+    protected static final String REQUEST_SEND_MONEY = "sendmoney";
+    protected static final String REQUEST_GET_TRANSACTION = "gettransaction";
+    protected static final String REQUEST_GET_NOTIFICATION = "getnotification";
 
 
     public String handle(JSONObject request) throws JSONException {
@@ -32,6 +37,8 @@ public class RequestHandler {
                 return signUpRequest(request);
             case REQUEST_BALANCE:
                 return balanceRequest(request);
+            case REQUEST_SEND_MONEY:
+                return sendMoneyRequest(request);
             default:
                 JSONObject response = new JSONObject();
                 response.put(RESPONSE_TYPE, requestType);
@@ -83,7 +90,51 @@ public class RequestHandler {
         return response.toString();
     }
 
-//    private String homePageRequest(JSONObject request) throws JSONException {
-//
-//    }
+    private String sendMoneyRequest(JSONObject request) throws JSONException {
+        JSONObject response = new JSONObject();
+
+        response.put(RESPONSE_TYPE, REQUEST_SEND_MONEY);
+
+        if (request.getDouble("amount") < 0) {
+            response.put(RESPONSE_SUCCESS, false);
+            response.put(RESPONSE_INFO, "Amount less than 0!");
+            return response.toString();
+        }
+
+        synchronized (DBModel.getInstance()) {
+            double amount = request.getDouble("amount");
+            if (loggedInUser.getBalance() < amount) {
+                response.put(RESPONSE_SUCCESS, false);
+                response.put(RESPONSE_INFO, "Not enough money in the account!");
+                return response.toString();
+            }
+
+            String sender, receiver, reference, type;
+            sender = loggedInUser.getMobileNumber();
+            receiver = request.getString("receiver");
+            reference = request.getString("reference");
+            type = request.getString("type");
+
+            if(receiver.isEmpty()) {
+                System.err.println("Handle Outer Transfer Protocol: ");
+                System.err.println("--------------------------------");
+                System.err.println(type+"\t::\t"+reference);
+            }
+            else if(!DBModel.getInstance().userExists(receiver)) {
+                response.put(RESPONSE_SUCCESS, false);
+                response.put(RESPONSE_INFO, "Receiver Not found!");
+                return response.toString();
+            }
+
+            response.put(RESPONSE_SUCCESS , DBModel.getInstance().makeTransaction(
+                    sender, receiver, amount, reference, type
+            ));
+
+            response.put(RESPONSE_INFO, "Database Update");
+
+            return response.toString();
+        }
+    }
+
+
 }

@@ -11,6 +11,13 @@ public class DBModel {
     private static final String USER_MOBILE_NO = "mobileno";
     private static final String USER_BALANCE = "balance";
 
+    private static final String TRANSACTION_TABLE = "transaction_data";
+    private static final String TRANSACTION_SENDER = "sender";
+    private static final String TRANSACTION_RECEIVER = "receiver";
+    private static final String TRANSACTION_AMOUNT = "amount";
+    private static final String TRANSACTION_REFERENCE = "reference";
+    private static final String TRANSACTION_TYPE = "type";
+
     private static DBModel instance = null;
 
     private Connection dbConnect = null;
@@ -115,5 +122,71 @@ public class DBModel {
         }
 
         return true;
+    }
+
+    public boolean makeTransaction(String sender, String receiver, double amount, String reference, String type) {
+        String sql = "INSERT INTO " + TRANSACTION_TABLE + " ( " +
+                TRANSACTION_SENDER + ", " + TRANSACTION_RECEIVER + ", " + TRANSACTION_AMOUNT + ", " + TRANSACTION_REFERENCE + ", " + TRANSACTION_TYPE + ") " +
+                "VALUES ( ?, ?, ?, ?, ?)";
+
+        String balanceUpdate = "UPDATE " + USER_TABLE + " SET " +
+                USER_BALANCE + " = " + USER_BALANCE + " + ? " +
+                "WHERE " + USER_MOBILE_NO + " = ?";
+
+        boolean success = true;
+
+        try {
+            dbConnect.setAutoCommit(false);
+
+            try (PreparedStatement transaction = dbConnect.prepareStatement(sql)) {
+                transaction.setString(1, sender);
+                transaction.setString(2, receiver);
+                transaction.setDouble(3, amount);
+                transaction.setString(4, reference);
+                transaction.setString(5, type);
+
+                transaction.executeUpdate();
+            }
+
+            if(!receiver.isEmpty()) try (PreparedStatement receiverBalance = dbConnect.prepareStatement(balanceUpdate, Statement.RETURN_GENERATED_KEYS)){
+                receiverBalance.setDouble(1, amount);
+                receiverBalance.setString(2, receiver);
+
+                int affectedRow = receiverBalance.executeUpdate();
+                if(affectedRow != 1) {
+                    success = false;
+                }
+            }
+
+            System.out.println(balanceUpdate);
+
+            try (PreparedStatement senderBalance = dbConnect.prepareStatement(balanceUpdate, Statement.RETURN_GENERATED_KEYS)){
+                senderBalance.setDouble(1, -amount);
+                senderBalance.setString(2, sender);
+
+                int affectedRow = senderBalance.executeUpdate();
+                if(affectedRow != 1) {
+                    success = false;
+                }
+            }
+
+            if (success) {
+                dbConnect.commit();
+            } else {
+                dbConnect.rollback();
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            success = false;
+        } finally {
+            try {
+                dbConnect.setAutoCommit(true);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
+        return success;
     }
 }
