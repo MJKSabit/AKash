@@ -2,6 +2,7 @@ package github.mjksabit.akash.app.Network;
 
 import github.mjksabit.akash.app.Controller.Account;
 import github.mjksabit.akash.app.Main;
+import github.mjksabit.akash.app.Model.Password;
 import github.mjksabit.akash.app.Model.Request;
 import github.mjksabit.akash.app.Model.User;
 import javafx.application.Platform;
@@ -16,13 +17,14 @@ public class AccountRequest extends Request<Account> {
 
     public void changePassword(User user, String newPassword) {
         JSONObject request = new JSONObject();
+        Password newPass = new Password(newPassword);
 
         try {
             request.put(REQUEST_TYPE, REQUEST_CHANGE_PASSWORD);
 
             request.put("mobile", user.getMobile());
-            request.put("oldpassword", user.getPassword());
-            request.put("newpassword", newPassword);
+            request.put("oldpassword", user.getPassword().getPasswordHash());
+            request.put("newpassword", newPass.getPasswordHash());
         } catch (JSONException e) {
             e.printStackTrace();
         }

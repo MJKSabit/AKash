@@ -3,6 +3,7 @@ package github.mjksabit.akash.app.Network;
 import github.mjksabit.akash.app.Controller.Application;
 import github.mjksabit.akash.app.Controller.Authenticate;
 import github.mjksabit.akash.app.Main;
+import github.mjksabit.akash.app.Model.Password;
 import github.mjksabit.akash.app.Model.Request;
 import javafx.application.Platform;
 import org.json.JSONException;
@@ -17,11 +18,13 @@ public class AuthenticateRequest extends Request<Authenticate> {
     public void signUpRequest(String mobileNo, String password, String name) {
         JSONObject request = new JSONObject();
 
+        String passwordHash = new Password(password).getPasswordHash();
+
         try {
             request.put(REQUEST_TYPE, REQUEST_SIGNUP);
 
             request.put("mobile", mobileNo);
-            request.put("password", password);
+            request.put("password", passwordHash);
             request.put("name", name);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -48,12 +51,13 @@ public class AuthenticateRequest extends Request<Authenticate> {
 
     public void logInRequest(String mobileNo, String password) {
         JSONObject request = new JSONObject();
+        Password myPassword = new Password(password);
 
         try {
             request.put(REQUEST_TYPE, REQUEST_LOGIN);
 
             request.put("mobile", mobileNo);
-            request.put("password", password);
+            request.put("password", myPassword.getPasswordHash());
 
         } catch (JSONException e) {
             e.printStackTrace();

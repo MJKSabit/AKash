@@ -9,5 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="javafx-11" level="application" />
     <orderEntry type="library" name="jfoenix-9.0.8" level="project" />
+    <orderEntry type="library" name="commons-codec-1.14" level="project" />
   </component>
 </module>

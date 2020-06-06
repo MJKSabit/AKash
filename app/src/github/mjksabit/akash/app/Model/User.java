@@ -2,12 +2,12 @@ package github.mjksabit.akash.app.Model;
 
 public class User {
     private String mobile;
-    private String password;
+    private Password password;
     private String name;
 
     public User(String mobile, String password, String name) {
         this.mobile = mobile;
-        this.password = password;
+        this.password = new Password(password);
         this.name = name;
     }
 
@@ -23,12 +23,12 @@ public class User {
         this.mobile = mobile;
     }
 
-    public String getPassword() {
+    public Password getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = new Password(password);
     }
 
     public void setName(String name) {

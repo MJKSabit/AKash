@@ -3,6 +3,7 @@ package github.mjksabit.akash.server;
 import github.mjksabit.akash.server.Controller.Client;
 import github.mjksabit.akash.server.Model.DBModel;
 import github.mjksabit.akash.server.Model.User;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -27,30 +28,35 @@ public class Main {
             while (!(serverCommand = adminCommand.nextLine()).isEmpty()) {
                 String[] commands = serverCommand.split("::");
 
-                switch (commands[0]) {
-                    case "DB":
-                        DBModel.DATABASE_LOCATION = "jdbc:sqlite:"+commands[1];
-                        break;
-                    case "NOTIFY":
-                        DBModel.getInstance().adminAddNotification(commands[1]);
-                        break;
-                    case "TRANSFER":
-                        String agentCode = commands[1];
-                        double ammount = Double.parseDouble(commands[2]);
-                        DBModel.getInstance().adminAddToAgent(agentCode, ammount);
-                        break;
-                    case "NEW":
-                        DBModel.getInstance().createUser("agent"+commands[1], commands[3], commands[2]);
-                        break;
-                    case "EXIT":
-                        System.exit(0);
-                    default:
-                        System.err.println("================= COMMAND NOT RECOGNIZED ================");
-                        System.out.println("Available Commands (Don't use extra space):\n" +
-                                "NOTIFY::<notification-text>\n" +
-                                "NEW::<agent-code>::<agent-name>::<agent-password>\n" +
-                                "TRANSFER::<agent-code>::<amount-to-transfer>\n" +
-                                "EXIT\n\n");
+                try {
+                    switch (commands[0]) {
+                        case "DB":
+                            DBModel.DATABASE_LOCATION = "jdbc:sqlite:" + commands[1];
+                            break;
+                        case "NOTIFY":
+                            DBModel.getInstance().adminAddNotification(commands[1]);
+                            break;
+                        case "TRANSFER":
+                            String agentCode = commands[1];
+                            double ammount = Double.parseDouble(commands[2]);
+                            DBModel.getInstance().adminAddToAgent(agentCode, ammount);
+                            break;
+                        case "NEW":
+                            DBModel.getInstance().createUser("agent" + commands[1],
+                                    DigestUtils.sha256Hex(commands[3]), commands[2]);
+                            break;
+                        case "EXIT":
+                            System.exit(0);
+                        default:
+                            System.err.println("================= COMMAND NOT RECOGNIZED ================");
+                            System.out.println("Available Commands (Don't use extra space):\n" +
+                                    "NOTIFY::<notification-text>\n" +
+                                    "NEW::<agent-code>::<agent-name>::<agent-password>\n" +
+                                    "TRANSFER::<agent-code>::<amount-to-transfer>\n" +
+                                    "EXIT\n\n");
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.err.println("==================== INVALID ARGUMENT(s) ==================");
                 }
             }
         });

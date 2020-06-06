@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="server-dependency" level="project" />
+    <orderEntry type="library" name="commons-codec-1.14" level="project" />
   </component>
 </module>
