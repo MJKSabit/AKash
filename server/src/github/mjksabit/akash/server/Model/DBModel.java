@@ -266,4 +266,22 @@ public class DBModel {
         return list;
 
     }
+
+    public boolean changePassword(String mobile, String oldpassword, String newpassword) {
+        String sql = "UPDATE " + USER_TABLE + " " +
+                " SET " + USER_PASSWORD + " = '" + newpassword + "' "+
+                " WHERE " + USER_MOBILE_NO + " = '" + mobile + "' " +
+                " AND " + USER_PASSWORD + " = '" + oldpassword +"'";
+        System.out.println(sql);
+
+        int number;
+        try (Statement statement = dbConnect.createStatement()){
+            number = statement.executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            number = 0;
+        }
+
+        return number != 0;
+    }
 }

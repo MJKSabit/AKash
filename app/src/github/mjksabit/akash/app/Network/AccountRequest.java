@@ -32,6 +32,7 @@ public class AccountRequest extends Request<Account> {
         ServerConnect.getInstance().waitForResponse(REQUEST_CHANGE_PASSWORD, (response) -> {
             if (response.getBoolean(RESPONSE_SUCCESS)) {
                 Platform.runLater( () -> Main.showSuccess("Password Changed Successfully", 2000));
+                user.setPassword(newPassword);
             }
             else {
                 Platform.runLater(() -> Main.showError("Can't Change Password :(", 2000));

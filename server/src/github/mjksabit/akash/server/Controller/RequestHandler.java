@@ -47,12 +47,25 @@ public class RequestHandler {
                 return getTransaction(request);
             case REQUEST_GET_NOTIFICATION:
                 return notification(request);
+            case REQUEST_CHANGE_PASSWORD:
+                return changePassword(request);
             default:
                 JSONObject response = new JSONObject();
                 response.put(RESPONSE_TYPE, requestType);
                 response.put(RESPONSE_SUCCESS, false);
                 return response.toString();
         }
+    }
+
+    private String changePassword(JSONObject request) throws JSONException {
+        JSONObject response = new JSONObject();
+        response.put(RESPONSE_TYPE, REQUEST_CHANGE_PASSWORD);
+
+        response.put(RESPONSE_SUCCESS, DBModel.getInstance().changePassword(
+                request.getString("mobile"), request.getString("oldpassword"), request.getString("newpassword")
+        ));
+
+        return response.toString();
     }
 
     private String getTransaction(JSONObject request) throws JSONException {
