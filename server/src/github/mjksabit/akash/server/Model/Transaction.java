@@ -1,4 +1,4 @@
-package github.mjksabit.akash.app.Model;
+package github.mjksabit.akash.server.Model;
 
 import org.json.JSONException;
 import org.json.JSONObject;

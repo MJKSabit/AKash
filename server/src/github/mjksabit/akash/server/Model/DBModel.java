@@ -1,6 +1,7 @@
 package github.mjksabit.akash.server.Model;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DBModel {
     private static final String DATABASE_LOCATION = "jdbc:sqlite:/media/sabit/Data/@CODE/Java/AKash/database/akash.db";
@@ -17,6 +18,7 @@ public class DBModel {
     private static final String TRANSACTION_AMOUNT = "amount";
     private static final String TRANSACTION_REFERENCE = "reference";
     private static final String TRANSACTION_TYPE = "type";
+    private static final String TRANSACTION_ID = "TrxId";
 
     private static DBModel instance = null;
 
@@ -188,5 +190,62 @@ public class DBModel {
         }
 
         return success;
+    }
+
+    public ArrayList<Transaction> getTransactions(String mobileNumber, int index, int limit, int filter) {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+
+        String firstCol, secondCol;
+        if(filter == 0) {
+            firstCol = TRANSACTION_SENDER;
+            secondCol = TRANSACTION_RECEIVER;
+        } else if (filter == -1) {
+            firstCol = TRANSACTION_SENDER;
+            secondCol = TRANSACTION_SENDER;
+        } else {
+            firstCol = TRANSACTION_RECEIVER;
+            secondCol = TRANSACTION_RECEIVER;
+        }
+
+        String sql = "SELECT " +
+                TRANSACTION_ID + ", " +
+                TRANSACTION_SENDER + ", " +
+                TRANSACTION_RECEIVER + ", " +
+                TRANSACTION_TYPE + ", " +
+                TRANSACTION_REFERENCE + ", " +
+                TRANSACTION_AMOUNT +
+                " FROM " + TRANSACTION_TABLE +
+                " WHERE " +
+                firstCol +
+                " like '" + mobileNumber + "' OR " +
+                secondCol+
+                " like '" + mobileNumber + "' "+
+                "ORDER BY " + TRANSACTION_ID + " DESC " +
+                " LIMIT " + limit +
+                " OFFSET " + index;
+        System.out.println(sql);
+
+        try (PreparedStatement select = dbConnect.prepareStatement(sql)){
+            try (ResultSet resultSet = select.executeQuery()) {
+                while (resultSet.next()) {
+                    boolean isCashOut = resultSet.getString(TRANSACTION_SENDER).equals(mobileNumber);
+                    String otherUser = (isCashOut) ? resultSet.getString(TRANSACTION_RECEIVER) : resultSet.getString(TRANSACTION_SENDER);
+                    transactions.add(new Transaction(
+                            resultSet.getString(TRANSACTION_ID),
+                            otherUser,
+                            resultSet.getString(TRANSACTION_TYPE),
+                            resultSet.getString(TRANSACTION_REFERENCE),
+                            isCashOut,
+                            resultSet.getDouble(TRANSACTION_AMOUNT)
+                            ));
+                }
+            }
+
+        } catch (SQLException throwables) {
+           throwables.printStackTrace();
+            return null;
+        }
+
+        return transactions;
     }
 }

@@ -1,9 +1,13 @@
 package github.mjksabit.akash.server.Controller;
 
 import github.mjksabit.akash.server.Model.DBModel;
+import github.mjksabit.akash.server.Model.Transaction;
 import github.mjksabit.akash.server.Model.User;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class RequestHandler {
 
@@ -39,12 +43,34 @@ public class RequestHandler {
                 return balanceRequest(request);
             case REQUEST_SEND_MONEY:
                 return sendMoneyRequest(request);
+            case REQUEST_GET_TRANSACTION:
+                return getTransaction(request);
             default:
                 JSONObject response = new JSONObject();
                 response.put(RESPONSE_TYPE, requestType);
                 response.put(RESPONSE_SUCCESS, false);
                 return response.toString();
         }
+    }
+
+    private String getTransaction(JSONObject request) throws JSONException {
+        JSONObject response = new JSONObject();
+        response.put(RESPONSE_TYPE, REQUEST_GET_TRANSACTION);
+
+        ArrayList<Transaction> transactions = DBModel.getInstance().getTransactions(
+                loggedInUser.getMobileNumber(), request.getInt("index"), request.getInt("limit"), request.getInt("filter"));
+
+        response.put(RESPONSE_SUCCESS, transactions!=null);
+        if(transactions != null ) {
+            JSONArray transactionsJSON = new JSONArray();
+
+            for (Transaction transaction : transactions)
+                transactionsJSON.put(transaction.getJSON());
+
+            response.put("transactions", transactionsJSON);
+        }
+
+        return response.toString();
     }
 
     private String balanceRequest(JSONObject request) throws JSONException {

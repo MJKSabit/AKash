@@ -206,12 +206,14 @@ public class Application extends Controller {
     @FXML
     void showTransactionIn(ActionEvent event) {
         transactionFilter = +1;
+        transactions.clear();
         loadMoreTransaction(null);
     }
 
     @FXML
     void showTransactionOut(ActionEvent event) {
         transactionFilter = -1;
+        transactions.clear();
         loadMoreTransaction(null);
     }
 

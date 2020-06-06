@@ -72,19 +72,9 @@ public class ApplicationRequest extends Request<Application> {
             JSONArray transactions = response.getJSONArray("transactions");
             
             for (int i=0; i<transactions.length(); i++) {
-                JSONObject transaction = transactions.getJSONObject(i);
+                Transaction transaction = new Transaction(transactions.getJSONObject(i));
                 Platform.runLater(() -> {
-                    try {
-                        requester.addTransaction(new Transaction(
-                                transaction.getString("id"),
-                                transaction.getString("name"),
-                                transaction.getString("type"),
-                                transaction.getString("reference"),
-                                transaction.getBoolean("isCashOut"),
-                                transaction.getDouble("amount")));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    requester.addTransaction(transaction);
                 });
             }
         });
