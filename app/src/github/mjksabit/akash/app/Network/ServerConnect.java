@@ -60,7 +60,7 @@ public class ServerConnect implements Closeable{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Request Sent...");
+//        System.out.println("Request Sent...");
     }
 
     public void waitForResponse(String responseType, RequestAction action) {

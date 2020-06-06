@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXDrawer?>
-<?import com.jfoenix.controls.JFXListView?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="450.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.akash.app.Controller.Application">
+<AnchorPane prefHeight="450.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.akash.app.Controller.Application">
     <children>
         <HBox layoutX="-1.0" prefHeight="72.0" prefWidth="607.0" style="-fx-background-color: #D66;">
             <children>
@@ -32,7 +23,7 @@
                 <Pane prefHeight="72.0" prefWidth="195.0" />
                 <VBox prefHeight="72.0" prefWidth="153.0">
                     <children>
-                        <JFXButton fx:id="buttonAccount" layoutX="10.0" layoutY="10.0" onAction="#showProfile" prefHeight="34.0" prefWidth="161.0" text="Account Name" textFill="WHITE">
+                        <JFXButton fx:id="buttonAccount" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="10.0" onAction="#showProfile" prefHeight="34.0" prefWidth="161.0" text="Account Name" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="26.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -41,7 +32,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="buttonBalance" onAction="#showBalance" prefHeight="38.0" prefWidth="172.0" text="Tap for Balance" textFill="WHITE">
+                        <JFXButton fx:id="buttonBalance" alignment="BASELINE_LEFT" onAction="#showBalance" prefHeight="38.0" prefWidth="172.0" text="Tap for Balance" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="26.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

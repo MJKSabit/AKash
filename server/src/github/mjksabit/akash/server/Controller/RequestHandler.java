@@ -31,7 +31,7 @@ public class RequestHandler {
 
 
     public String handle(JSONObject request) throws JSONException {
-        System.out.println(request.toString());
+//        System.out.println(request.toString());
 
         String requestType = request.getString(REQUEST_TYPE);
 

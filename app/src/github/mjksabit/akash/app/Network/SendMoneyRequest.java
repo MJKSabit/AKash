@@ -38,8 +38,16 @@ public class SendMoneyRequest extends Request<Controller> {
                 });
             }
             else {
+                String error = "Transaction Failed! ", errorMessage;
+                try {
+                    error += response.getString("info");
+                } catch (JSONException e) {
+
+                }
+                errorMessage = error;
+
                 Platform.runLater(() -> {
-                    Main.showError((Pane) requester.getRoot(), "Transaction Failed!", 2000);
+                    Main.showError((Pane) requester.getRoot(), errorMessage, 2000);
                 });
             }
         });

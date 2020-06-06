@@ -34,7 +34,7 @@
       </Pane>
       <JFXTextField fx:id="textSendTo" focusColor="#dd6666" labelFloat="true" layoutX="40.0" layoutY="168.0" prefHeight="40.0" prefWidth="200.0" promptText="Donation To" unFocusColor="#ffc2c2" />
       <JFXTextField fx:id="textAmount" focusColor="#dd6666" labelFloat="true" layoutX="260.0" layoutY="168.0" prefHeight="40.0" prefWidth="100.0" promptText="Amount" unFocusColor="#ffc2c2" />
-      <JFXTextField fx:id="textReference" focusColor="#dd6666" labelFloat="true" layoutX="40.0" layoutY="251.0" prefHeight="40.0" prefWidth="320.0" promptText="Reference" unFocusColor="#ffc2c2" />
+      <JFXTextField fx:id="textReference" focusColor="#dd6666" labelFloat="true" layoutX="40.0" layoutY="251.0" prefHeight="40.0" prefWidth="320.0" promptText="Note (Optional)" unFocusColor="#ffc2c2" />
       <JFXPasswordField fx:id="textPassword" focusColor="#dd6666" labelFloat="true" layoutX="40.0" layoutY="319.0" prefHeight="40.0" prefWidth="320.0" promptText="Password" unFocusColor="#d04040" />
       <JFXButton fx:id="buttonSend" layoutY="389.0" onMousePressed="#startSendMoneyProgress" onMouseReleased="#stopSendMoneyProgress" prefHeight="63.0" prefWidth="400.0" ripplerFill="#fc5252" style="-fx-background-color: #D66;" text="Tap and Hold " textFill="WHITE">
          <font>

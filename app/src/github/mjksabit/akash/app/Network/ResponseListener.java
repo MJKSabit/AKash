@@ -56,7 +56,7 @@ public class ResponseListener implements Runnable {
         while (continueListening && !responseMap.isEmpty()) {
             try {
                 String response = in.readLine();
-                System.out.println(response);
+//                System.out.println(response);
 
                 JSONObject object = new JSONObject(response);
                 String responseType = object.getString(RESPONSE_TYPE);

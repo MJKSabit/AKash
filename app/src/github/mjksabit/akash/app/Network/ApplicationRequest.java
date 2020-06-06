@@ -135,7 +135,7 @@ public class ApplicationRequest extends Request<Application> {
         Main.replaceSceneContent("authentication");
 
         ServerConnect.getInstance().waitForResponse(REQUEST_LOGOUT, (json) -> Platform.runLater(() -> Main.showSuccess("Logged Out Successfully", 2000)));
-        
+
         ServerConnect.getInstance().sendRequest(request);
     }
 }

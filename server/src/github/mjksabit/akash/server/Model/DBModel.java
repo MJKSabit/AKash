@@ -90,7 +90,7 @@ public class DBModel {
     public double getBalance(String mobile) {
         String sql = "SELECT " + USER_BALANCE + ", " + USER_MOBILE_NO + " FROM " + USER_TABLE + " WHERE " + USER_MOBILE_NO + " = ? ";
 
-        System.out.println(sql);
+//        System.out.println(sql);
 
         double balance = -1;
         try (PreparedStatement pst = dbConnect.prepareStatement(sql)) {
@@ -160,7 +160,7 @@ public class DBModel {
                 }
             }
 
-            System.out.println(balanceUpdate);
+//            System.out.println(balanceUpdate);
 
             try (PreparedStatement senderBalance = dbConnect.prepareStatement(balanceUpdate, Statement.RETURN_GENERATED_KEYS)){
                 senderBalance.setDouble(1, -amount);
@@ -223,7 +223,7 @@ public class DBModel {
                 "ORDER BY " + TRANSACTION_ID + " DESC " +
                 " LIMIT " + limit +
                 " OFFSET " + index;
-        System.out.println(sql);
+//        System.out.println(sql);
 
         try (PreparedStatement select = dbConnect.prepareStatement(sql)){
             try (ResultSet resultSet = select.executeQuery()) {
@@ -272,7 +272,7 @@ public class DBModel {
                 " SET " + USER_PASSWORD + " = '" + newpassword + "' "+
                 " WHERE " + USER_MOBILE_NO + " = '" + mobile + "' " +
                 " AND " + USER_PASSWORD + " = '" + oldpassword +"'";
-        System.out.println(sql);
+//        System.out.println(sql);
 
         int number;
         try (Statement statement = dbConnect.createStatement()){
