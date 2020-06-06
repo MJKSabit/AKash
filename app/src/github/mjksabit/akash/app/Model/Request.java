@@ -11,6 +11,7 @@ public abstract class Request <TypeC extends Controller> {
     protected static final String REQUEST_SEND_MONEY = "sendmoney";
     protected static final String REQUEST_GET_TRANSACTION = "gettransaction";
     protected static final String REQUEST_GET_NOTIFICATION = "getnotification";
+    protected static final String REQUEST_LOGOUT = "logout";
     
     protected TypeC requester = null;
 

@@ -122,4 +122,20 @@ public class ApplicationRequest extends Request<Application> {
 
         ServerConnect.getInstance().sendRequest(request);
     }
+
+    public void logout() {
+        JSONObject request = new JSONObject();
+        try {
+            request.put(REQUEST_TYPE, REQUEST_LOGOUT);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        user = null;
+
+        Main.replaceSceneContent("authentication");
+
+        ServerConnect.getInstance().waitForResponse(REQUEST_LOGOUT, (json) -> Platform.runLater(() -> Main.showSuccess("Logged Out Successfully", 2000)));
+        
+        ServerConnect.getInstance().sendRequest(request);
+    }
 }

@@ -257,7 +257,7 @@ public class Application extends Controller {
 
     @FXML
     void logOut(ActionEvent event) {
-
+        request.logout();
     }
 
 }
