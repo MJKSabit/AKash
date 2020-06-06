@@ -248,4 +248,22 @@ public class DBModel {
 
         return transactions;
     }
+
+    public ArrayList<String> getNotifications() {
+        String sql = "SELECT * from notification";
+        ArrayList<String> list = new ArrayList<>();
+
+        try (Statement statement = dbConnect.createStatement();
+             ResultSet resultSet =  statement.executeQuery(sql)){
+            while (resultSet.next()) {
+                list.add(resultSet.getString(1));
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return list;
+
+    }
 }

@@ -45,6 +45,8 @@ public class RequestHandler {
                 return sendMoneyRequest(request);
             case REQUEST_GET_TRANSACTION:
                 return getTransaction(request);
+            case REQUEST_GET_NOTIFICATION:
+                return notification(request);
             default:
                 JSONObject response = new JSONObject();
                 response.put(RESPONSE_TYPE, requestType);
@@ -121,7 +123,7 @@ public class RequestHandler {
 
         response.put(RESPONSE_TYPE, REQUEST_SEND_MONEY);
 
-        if (request.getDouble("amount") < 0) {
+        if (request.getDouble("amount") <= 0) {
             response.put(RESPONSE_SUCCESS, false);
             response.put(RESPONSE_INFO, "Amount less than 0!");
             return response.toString();
@@ -160,6 +162,22 @@ public class RequestHandler {
 
             return response.toString();
         }
+    }
+
+    protected String notification(JSONObject request) throws JSONException {
+        JSONObject response = new JSONObject();
+        response.put(RESPONSE_TYPE, REQUEST_GET_NOTIFICATION);
+
+        ArrayList<String> notifications = DBModel.getInstance().getNotifications();
+
+        JSONArray array = new JSONArray();
+        for (String data : notifications)
+            array.put(data);
+
+        response.put("notifications", array);
+        response.put(RESPONSE_SUCCESS, true);
+
+        return response.toString();
     }
 
 
