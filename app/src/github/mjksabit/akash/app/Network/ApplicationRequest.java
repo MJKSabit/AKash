@@ -15,6 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.ServerSocket;
+
 public class ApplicationRequest extends Request<Application> {
 
     private User user = null;
@@ -108,5 +110,16 @@ public class ApplicationRequest extends Request<Application> {
                 Platform.runLater(() -> Main.showError("Error fetching Notifications...", 2000));
             }
         });
+    }
+
+    public void exitRequest() {
+        JSONObject request = new JSONObject();
+        try {
+            request.put(REQUEST_TYPE, "exit");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        ServerConnect.getInstance().sendRequest(request);
     }
 }

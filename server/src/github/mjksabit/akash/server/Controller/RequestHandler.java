@@ -27,6 +27,7 @@ public class RequestHandler {
     protected static final String REQUEST_SEND_MONEY = "sendmoney";
     protected static final String REQUEST_GET_TRANSACTION = "gettransaction";
     protected static final String REQUEST_GET_NOTIFICATION = "getnotification";
+    protected static final String REQUEST_LOGOUT = "logout";
 
 
     public String handle(JSONObject request) throws JSONException {
@@ -49,12 +50,24 @@ public class RequestHandler {
                 return notification(request);
             case REQUEST_CHANGE_PASSWORD:
                 return changePassword(request);
+            case REQUEST_LOGOUT:
+                return logOut(request);
             default:
                 JSONObject response = new JSONObject();
                 response.put(RESPONSE_TYPE, requestType);
                 response.put(RESPONSE_SUCCESS, false);
                 return response.toString();
         }
+    }
+
+    private String logOut(JSONObject request) throws JSONException {
+        request.remove(REQUEST_TYPE);
+        request.put(RESPONSE_TYPE, REQUEST_LOGOUT);
+        request.put(RESPONSE_SUCCESS, true);
+
+        loggedInUser = null;
+
+        return request.toString();
     }
 
     private String changePassword(JSONObject request) throws JSONException {

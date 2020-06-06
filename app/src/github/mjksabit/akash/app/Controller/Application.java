@@ -1,20 +1,26 @@
 package github.mjksabit.akash.app.Controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
 import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.*;
 import github.mjksabit.akash.app.Network.ApplicationRequest;
+import github.mjksabit.akash.app.Network.ServerConnect;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -49,6 +55,9 @@ public class Application extends Controller {
             }
         });
 
+        optionDrawer.setSidePane(drawerContainer);
+        optionDrawer.close();
+
 
         listTransaction.setCellFactory(transactionListView -> new TransactionViewListCell());
         listTransaction.setItems(transactions);
@@ -71,6 +80,12 @@ public class Application extends Controller {
         buttonAccount.setText(name);
         request.setUser(user);
     }
+
+    @FXML
+    private Pane drawerContainer;
+
+    @FXML
+    private JFXDrawer optionDrawer;
 
     @FXML
     private JFXButton buttonAccount;
@@ -215,6 +230,34 @@ public class Application extends Controller {
         transactionFilter = -1;
         transactions.clear();
         loadMoreTransaction(null);
+    }
+
+    @FXML
+    void toggleDrawer(ActionEvent event) {
+        if(optionDrawer.isOpened()) {
+            optionDrawer.close();
+            new Thread(() -> {
+                while(optionDrawer.isClosing());
+                Platform.runLater(() -> optionDrawer.setVisible(false));
+            }).start();
+            buttonToggle.setStyle("-fx-background-color: inherit;");
+        }
+        else {
+            optionDrawer.open();
+            optionDrawer.setVisible(true);
+            buttonToggle.setStyle("-fx-background-color: #2222");
+        }
+    }
+
+    @FXML
+    void exitAkash(ActionEvent event) {
+        request.exitRequest();
+        System.exit(0);
+    }
+
+    @FXML
+    void logOut(ActionEvent event) {
+
     }
 
 }
