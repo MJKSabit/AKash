@@ -19,6 +19,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+import java.util.regex.Pattern;
+
 import static java.lang.Double.*;
 
 public class SendMoney extends Controller {
@@ -75,14 +77,20 @@ public class SendMoney extends Controller {
         return true;
     }
 
-    boolean isInteger(JFXTextField textField) {
-        try{Integer.parseInt(textField.getText());}
-        catch (NumberFormatException e) {
-            textField.requestFocus();
-            textField.setFocusColor(Color.RED);
-            return false;
-        }
-        return true;
+    boolean isMobileNumber(JFXTextField textField) {
+        if(Pattern.matches("^01\\d{9}", textField.getText()))
+            return true;
+        textField.requestFocus();
+        textField.setFocusColor(Color.RED);
+        return false;
+    }
+
+    boolean isNumber(JFXTextField textField) {
+        if(Pattern.matches("^\\d*\\.?\\d*$", textField.getText()))
+            return true;
+        textField.requestFocus();
+        textField.setFocusColor(Color.RED);
+        return false;
     }
 
     boolean matchPassword(JFXPasswordField passwordField) {
@@ -100,12 +108,9 @@ public class SendMoney extends Controller {
     }
 
     boolean validateInput() {
-        return
-                notEmpty(textSendTo) &&
-//                        isInteger(textSendTo) &&
-                        notEmpty(textAmount) &&
-                        isInteger(textAmount) &&
-                        matchPassword(textPassword);
+        return notEmpty(textSendTo) && isMobileNumber(textSendTo) &&
+                notEmpty(textAmount) && isNumber(textAmount) &&
+                matchPassword(textPassword);
     }
 
     @FXML

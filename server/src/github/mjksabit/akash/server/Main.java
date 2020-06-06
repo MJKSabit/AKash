@@ -21,22 +21,36 @@ public class Main {
         Runnable target;
         Thread adminThread = new Thread(() -> {
             String serverCommand;
+
+            System.err.println("ADMIN MODE RUNNING; PLEASE ENTER 'DB:<database-absolute-path>' to connect to database");
+
             while (!(serverCommand = adminCommand.nextLine()).isEmpty()) {
                 String[] commands = serverCommand.split("::");
 
                 switch (commands[0]) {
+                    case "DB":
+                        DBModel.DATABASE_LOCATION = "jdbc:sqlite:"+commands[1];
+                        break;
                     case "NOTIFY":
                         DBModel.getInstance().adminAddNotification(commands[1]);
                         break;
-                    case "AGENT":
+                    case "TRANSFER":
                         String agentCode = commands[1];
                         double ammount = Double.parseDouble(commands[2]);
                         DBModel.getInstance().adminAddToAgent(agentCode, ammount);
                         break;
+                    case "NEW":
+                        DBModel.getInstance().createUser("agent"+commands[1], commands[3], commands[2]);
+                        break;
                     case "EXIT":
                         System.exit(0);
                     default:
-                        System.err.println("Command Not Recognized...");
+                        System.err.println("================= COMMAND NOT RECOGNIZED ================");
+                        System.out.println("Available Commands (Don't use extra space):\n" +
+                                "NOTIFY::<notification-text>\n" +
+                                "NEW::<agent-code>::<agent-name>::<agent-password>\n" +
+                                "TRANSFER::<agent-code>::<amount-to-transfer>\n" +
+                                "EXIT\n\n");
                 }
             }
         });

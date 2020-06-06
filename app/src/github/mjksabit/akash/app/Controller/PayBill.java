@@ -16,6 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+import java.util.regex.Pattern;
+
 import static java.lang.Double.parseDouble;
 
 public class PayBill extends Controller {
@@ -72,14 +74,20 @@ public class PayBill extends Controller {
         return true;
     }
 
-    boolean isInteger(JFXTextField textField) {
-        try{Integer.parseInt(textField.getText());}
-        catch (NumberFormatException e) {
-            textField.requestFocus();
-            textField.setFocusColor(Color.RED);
-            return false;
-        }
-        return true;
+    boolean isMobileNumber(JFXTextField textField) {
+        if(Pattern.matches("^01\\d{9}", textField.getText()))
+            return true;
+        textField.requestFocus();
+        textField.setFocusColor(Color.RED);
+        return false;
+    }
+
+    boolean isNumber(JFXTextField textField) {
+        if(Pattern.matches("^\\d*\\.?\\d*$", textField.getText()))
+            return true;
+        textField.requestFocus();
+        textField.setFocusColor(Color.RED);
+        return false;
     }
 
     boolean matchPassword(JFXPasswordField passwordField) {
@@ -97,7 +105,8 @@ public class PayBill extends Controller {
     }
 
     boolean validateInput() {
-        return notEmpty(textSendTo) && notEmpty(textAmount) && isInteger(textAmount) &&
+        return notEmpty(textSendTo) && notEmpty(textAmount) &&
+                isMobileNumber(textSendTo) && isNumber(textAmount) &&
                 matchPassword(textPassword);
     }
 

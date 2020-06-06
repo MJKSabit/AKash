@@ -8,7 +8,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.regex.Pattern;
 
 public class Authenticate extends Controller {
 
@@ -69,7 +72,7 @@ public class Authenticate extends Controller {
             Stage stage = (Stage) rootPane.getScene().getWindow();
 
 //            JFXDialog dialog = new JFXDialog();
-            Main.showError("Empty Text Fields...", 2000);
+            Main.showError("Empty Fields...", 2000);
             return;
         }
 
@@ -102,6 +105,12 @@ public class Authenticate extends Controller {
         if (mobile.isEmpty() || password.isEmpty() || name.isEmpty()) {
 //            Stage stage = (Stage) rootPane.getScene().getWindow();
             Main.showError("Empty Text Fields...", 2000);
+            return;
+        }
+
+        if (!Pattern.matches("^01\\d{9}", mobile)) {
+            textSignUpMobileNo.requestFocus();
+            textSignUpMobileNo.setFocusColor(Color.RED);
             return;
         }
 

@@ -17,6 +17,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+import java.util.regex.Pattern;
+
 import static java.lang.Double.parseDouble;
 
 public class BankTransfer extends Controller {
@@ -76,14 +78,12 @@ public class BankTransfer extends Controller {
         return true;
     }
 
-    boolean isInteger(JFXTextField textField) {
-        try{Integer.parseInt(textField.getText());}
-        catch (NumberFormatException e) {
-            textField.requestFocus();
-            textField.setFocusColor(Color.RED);
-            return false;
-        }
-        return true;
+    boolean isNumber(JFXTextField textField) {
+        if(Pattern.matches("^\\d*\\.?\\d*$", textField.getText()))
+            return true;
+        textField.requestFocus();
+        textField.setFocusColor(Color.RED);
+        return false;
     }
 
     boolean matchPassword(JFXPasswordField passwordField) {
@@ -101,7 +101,7 @@ public class BankTransfer extends Controller {
     }
 
     boolean validateInput() {
-        return notEmpty(textSendTo) && notEmpty(textAmount) && isInteger(textAmount) &&
+        return notEmpty(textSendTo) && notEmpty(textAmount) && isNumber(textAmount) &&
                 matchPassword(textPassword);
     }
 
