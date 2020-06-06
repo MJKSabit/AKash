@@ -20,6 +20,8 @@ public class DBModel {
     private static final String TRANSACTION_TYPE = "type";
     private static final String TRANSACTION_ID = "TrxId";
 
+    private static final String NOTIFICATION_TABLE = "notification";
+
     private static DBModel instance = null;
 
     private Connection dbConnect = null;
@@ -45,6 +47,18 @@ public class DBModel {
             instance = new DBModel();
 
         return instance;
+    }
+
+    public void adminAddNotification(String text) {
+        String sql = "INSERT INTO " + NOTIFICATION_TABLE + " VALUES ( '" +
+                text + "' )";
+        try (Statement statement = dbConnect.createStatement()) {
+            statement.execute(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return;
+        }
+        System.out.println("============== NOTIFICATION ADDED ==================");
     }
 
     public User getUser(String mobile, String password) {
@@ -250,7 +264,7 @@ public class DBModel {
     }
 
     public ArrayList<String> getNotifications() {
-        String sql = "SELECT * from notification";
+        String sql = "SELECT * from " + NOTIFICATION_TABLE;
         ArrayList<String> list = new ArrayList<>();
 
         try (Statement statement = dbConnect.createStatement();
@@ -283,5 +297,10 @@ public class DBModel {
         }
 
         return number != 0;
+    }
+
+    public void adminAddToAgent(String agentCode, double ammount) {
+        System.out.println("================ AGENT MONEY SENT ? " + makeTransaction("ADMIN", "agent"+agentCode, ammount, "Cash in from ADMIN", "Send Money")
+        + "========================");
     }
 }
