@@ -19,11 +19,16 @@ public class Main {
 
         Scanner adminCommand = new Scanner(System.in);
 
+        if(args.length == 1)  {
+            DBModel.DATABASE_LOCATION = "jdbc:sqlite:" + args[0];
+        }
+
         Runnable target;
         Thread adminThread = new Thread(() -> {
             String serverCommand;
 
-            System.err.println("ADMIN MODE RUNNING; PLEASE ENTER 'DB:<database-absolute-path>' to connect to database");
+            if(args.length != 1)
+                System.err.println("ADMIN MODE RUNNING; PLEASE ENTER 'DB:<database-absolute-path>' to connect to database");
 
             while (!(serverCommand = adminCommand.nextLine()).isEmpty()) {
                 String[] commands = serverCommand.split("::");
