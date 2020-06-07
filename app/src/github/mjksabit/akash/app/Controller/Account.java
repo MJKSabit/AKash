@@ -47,6 +47,9 @@ public class Account extends Controller {
     private JFXPasswordField textNewPassword;
 
     @FXML
+    private JFXPasswordField textNewPasswordConfirm;
+
+    @FXML
     private JFXPasswordField textOldPassword;
 
     @FXML
@@ -68,7 +71,13 @@ public class Account extends Controller {
                 // Focus to Add New Password
                 textNewPassword.requestFocus();
                 textNewPassword.setFocusColor(Color.RED);
-            } else {
+            }
+            else if (!textNewPasswordConfirm.getText().equals(newPassword)) {
+                // Focus to Confirm Password
+                textNewPasswordConfirm.requestFocus();
+                textNewPasswordConfirm.setFocusColor(Color.RED);
+            }
+            else {
                 // Request Handled by Request Handler
                 request.changePassword(user, newPassword);
 
