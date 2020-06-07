@@ -26,9 +26,14 @@ public class ResponseListener implements Runnable {
         listenerThread = null;
     }
 
+    // Start Listening for Response
     public void startExplicitListening() {
+
+        // Lazy Initialization
         if(listenerThread==null)
-            listenerThread = new Thread(this); // make listen
+            listenerThread = new Thread(this);
+
+        // If thread Already Done, start again
         if(!listenerThread.isAlive()) listenerThread.start();
     }
 
@@ -53,10 +58,11 @@ public class ResponseListener implements Runnable {
     @Override
     public void run() {
         continueListening = true;
+
+        // Continue Listening if Some Response to Handle in responseMap
         while (continueListening && !responseMap.isEmpty()) {
             try {
                 String response = in.readLine();
-//                System.out.println(response);
 
                 JSONObject object = new JSONObject(response);
                 String responseType = object.getString(RESPONSE_TYPE);

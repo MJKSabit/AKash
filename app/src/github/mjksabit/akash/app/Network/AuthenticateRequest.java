@@ -34,16 +34,15 @@ public class AuthenticateRequest extends Request<Authenticate> {
 
         ServerConnect.getInstance().waitForResponse(REQUEST_SIGNUP, (json) -> {
             boolean success = json.getBoolean(RESPONSE_SUCCESS);
-            if(success) {
-                Main.showSuccess("Sign Up Success" , 2000);
+            if (success) {
+                Main.showSuccess("Sign Up Success", 2000);
 
                 Platform.runLater(() -> {
                     requester.backToLogIn(null);
-                    requester.setLogInCredentials( mobileNo, password);
+                    requester.setLogInCredentials(mobileNo, password);
                 });
-            }
-            else {
-                Main.showSuccess("Sign Up Failed" , 2000);
+            } else {
+                Main.showSuccess("Sign Up Failed", 2000);
             }
 
         });
@@ -65,11 +64,11 @@ public class AuthenticateRequest extends Request<Authenticate> {
 
         ServerConnect.getInstance().sendRequest(request);
 
-        ServerConnect.getInstance().waitForResponse(REQUEST_LOGIN, (json) ->  {
+        ServerConnect.getInstance().waitForResponse(REQUEST_LOGIN, (json) -> {
             boolean success = json.getBoolean(RESPONSE_SUCCESS);
 
-            if (success){
-                Main.showSuccess("Log In Success" , 2000);
+            if (success) {
+                Main.showSuccess("Log In Success", 2000);
                 Platform.runLater(() -> {
                     Application controller = (Application) Main.replaceSceneContent("application");
                     try {
@@ -79,7 +78,7 @@ public class AuthenticateRequest extends Request<Authenticate> {
                     }
                 });
             } else {
-                Main.showError("Invalid Username/Password" , 2000);
+                Main.showError("Invalid Username/Password", 2000);
             }
         });
     }

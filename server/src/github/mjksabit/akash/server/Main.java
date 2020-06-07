@@ -132,7 +132,7 @@ public class Main {
             // Allow client to connect to Server Every time
             clientSocket = serverSocket.accept();
 
-            System.out.println(" >>> NEW Client Connected");
+            System.out.println(">>> NEW Client Connected");
 
             // Start New Thread for New Client
             new Thread(new Client(clientSocket)).start();

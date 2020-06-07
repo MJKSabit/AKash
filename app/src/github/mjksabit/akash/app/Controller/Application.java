@@ -267,6 +267,10 @@ public class Application extends Controller {
     @FXML
     void showTransactionAll(ActionEvent event) {
         transactionFilter = FILTER_SHOW_ALL;
+
+        // Fresh Start
+        transactions.clear();
+
         loadMoreTransaction(null);
     }
 

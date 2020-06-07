@@ -29,23 +29,30 @@ public class SendMoneyRequest extends Request<Controller> {
             e.printStackTrace();
         }
 
+        // Send Request to Server
         ServerConnect.getInstance().sendRequest(request);
+
+        // Response Action
         ServerConnect.getInstance().waitForResponse(REQUEST_SEND_MONEY, (response) -> {
-            if(response.getBoolean(RESPONSE_SUCCESS)) {
+
+            // Show Notification if Transaction is successful and close window
+            if (response.getBoolean(RESPONSE_SUCCESS)) {
                 Platform.runLater(() -> {
                     Main.showSuccess("Transaction Successful!", 2000);
                     requester.getStage().close();
                 });
             }
+            // Show Notification if Transaction is not successful with info
             else {
                 String error = "Transaction Failed! ", errorMessage;
                 try {
                     error += response.getString("info");
-                } catch (JSONException e) {
+                } catch (JSONException ignored) {
 
                 }
                 errorMessage = error;
 
+                // Error Message on Not Closed Window
                 Platform.runLater(() -> {
                     Main.showError((Pane) requester.getRoot(), errorMessage, 2000);
                 });

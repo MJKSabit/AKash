@@ -25,6 +25,7 @@ public class AccountRequest extends Request<Account> {
             request.put("mobile", user.getMobile());
             request.put("oldpassword", user.getPassword().getPasswordHash());
             request.put("newpassword", newPass.getPasswordHash());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
