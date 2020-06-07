@@ -22,8 +22,11 @@ import static java.lang.Double.parseDouble;
 
 public class CashOut extends Controller {
     User user = null;
+
+    // RequestHandler :: Tightly Coupled with this Controller
     SendMoneyRequest request = null;
 
+    // Set User Data
     public void setUser(User user) {
         this.user = user;
         textSenderNumber.setText(user.getMobile());
@@ -31,9 +34,13 @@ public class CashOut extends Controller {
 
     @FXML
     public void initialize() {
+        super.setRootNode(root);
+
+        // Send Progress only Visible when Send is Tapped
         sendProgress.setVisible(false);
+
+        // Sets Up RequestHandler
         request = new SendMoneyRequest(this);
-        setRootNode(root);
     }
 
     @FXML
@@ -60,12 +67,9 @@ public class CashOut extends Controller {
     @FXML
     private JFXTextField textAmount;
 
-    final int totalTime = 1000;
-    final int perStep = 50;
-    boolean tap;
-
+    // TextField Empty Validator, if Empty, focus
     boolean notEmpty(JFXTextField textField) {
-        if(textField.getText().isEmpty()) {
+        if (textField.getText().isEmpty()) {
             textField.requestFocus();
             textField.setFocusColor(Color.RED);
             return false;
@@ -73,22 +77,33 @@ public class CashOut extends Controller {
         return true;
     }
 
-    boolean isNumber(JFXTextField textField) {
-        if(Pattern.matches("^\\d*\\.?\\d*$", textField.getText()))
+    // TextField Number Validator, if Not a Number, focus
+    boolean isMobileNumber(JFXTextField textField) {
+        if (Pattern.matches("^01\\d{9}", textField.getText()))
             return true;
         textField.requestFocus();
         textField.setFocusColor(Color.RED);
         return false;
     }
-    
+
+    // Number Validator, if not a number, focus
+    boolean isNumber(JFXTextField textField) {
+        if (Pattern.matches("^\\d*\\.?\\d*$", textField.getText()))
+            return true;
+        textField.requestFocus();
+        textField.setFocusColor(Color.RED);
+        return false;
+    }
+
+    // Password Validator, if doesn't match, focus
     boolean matchPassword(JFXPasswordField passwordField) {
-        if(passwordField.getText().isEmpty()) {
+        if (passwordField.getText().isEmpty()) {
             passwordField.requestFocus();
             passwordField.setFocusColor(Color.RED);
             return false;
         }
 
-        if(!user.getPassword().equals(passwordField.getText())) {
+        if (!user.verifyPassword(passwordField.getText())) {
             Main.showError((Pane) getRoot(), "Password Mismatch!", 2000);
             return false;
         }
@@ -104,34 +119,60 @@ public class CashOut extends Controller {
                 matchPassword(textPassword);
     }
 
+    final int totalTime = 1000;
+    final int perStep = 50;
+    boolean tap;
+
     @FXML
     void startSendMoneyProgress(Event event) {
-        if(!validateInput()) return;
+        // Don't start Send Money Progress if InputValidation Fails
+        if (!validateInput()) return;
 
         tap = true;
+
+        // ProgressBar Progress Update Thread
         new Thread(() -> {
             int time;
+
+            sendProgress.setProgress(0);
             sendProgress.setVisible(true);
-            for (time=perStep; time<=totalTime && tap; time += perStep) {
-                double progress = ((double)time)/totalTime;
+
+            // Loop Until totalTime or not Tapped to Send
+            for (time = perStep; time <= totalTime && tap; time += perStep) {
+                double progress = ((double) time) / totalTime;
+
+                // WaitFor perStep milliSeconds then Update Progress Bar
                 try {
                     Thread.sleep(perStep);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
                 Platform.runLater(() -> sendProgress.setProgress(progress));
             }
+
+            // Hide Progress Bar
             sendProgress.setVisible(false);
-            if (time>totalTime) sendMoneyRequest();
+
+            // Loop was Ended due to Time being Finished
+            if (time > totalTime) sendMoneyRequest();
+
         }).start();
     }
 
     @FXML
     void stopSendMoneyProgress(Event event) {
+        // Currently not tapped to Send Button
         tap = false;
     }
 
     public void sendMoneyRequest() {
-        request.sendMoney(user, "agent"+textSendTo.getText(), parseDouble(textAmount.getText()), "", "Cash Out");
+        request.sendMoney(
+                user,
+                "agent"+textSendTo.getText(),
+                parseDouble(textAmount.getText()),
+                "",
+                "Cash Out"
+        );
     }
 }

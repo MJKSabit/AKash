@@ -3,16 +3,9 @@ package github.mjksabit.akash.app.Model;
 import github.mjksabit.akash.app.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.paint.Color;
 
 import java.io.IOException;
 

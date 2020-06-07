@@ -20,16 +20,19 @@ import java.util.regex.Pattern;
 
 public class Authenticate extends Controller {
 
+    // RequestHandler :: Tightly Coupled with this Controller
     private AuthenticateRequest request = null;
 
     @FXML
     private AnchorPane rootPane;
 
+    // JavaFX Controller Initializer
     @FXML
     public void initialize() {
         backToLogIn(null);
         setRootNode(rootPane);
 
+        // Setting Up RequestService Specialized for this Controller
         request = new AuthenticateRequest(this);
     }
 
@@ -57,24 +60,31 @@ public class Authenticate extends Controller {
     @FXML
     private JFXTextField textSignUpName;
 
-    @FXML
+    @FXML //// DRY
     public void backToLogIn(ActionEvent event) {
+
+        // Slide Animation
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(ANIMATION_TIME), pane_signup);
+
         pane_login.setVisible(true);
         pane_login.setDisable(false);
 
         translateTransition.setFromX(0);
-        translateTransition.setToX(369);
+        translateTransition.setToX(pane_signup.getWidth());
+
         translateTransition.play();
 
+        // Thread to Completely Hide signup_pane after ANIMATION_TIME
         new Thread(() -> {
             try {
+                // Wait for Animation to end
                 Thread.sleep(ANIMATION_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            Platform.runLater( () -> {
+            // Disable other_pane
+            Platform.runLater(() -> {
                 pane_signup.setVisible(false);
                 pane_signup.setDisable(true);
             });
@@ -83,48 +93,56 @@ public class Authenticate extends Controller {
 
     @FXML
     public void logInRequest(ActionEvent event) {
-        String mobile, password;
+        // Extract Data from TextFields
+        String mobile = textLoginMobileNo.getText();
+        String password = textLogInPassword.getText();
 
-        mobile = textLoginMobileNo.getText();
-        password = textLogInPassword.getText();
-
-        if (mobile.isEmpty() || password.isEmpty()) {
-            Stage stage = (Stage) rootPane.getScene().getWindow();
-
-//            JFXDialog dialog = new JFXDialog();
-            Main.showError("Empty Fields...", 2000);
+        if (mobile.isEmpty() || password.isEmpty()) { /// Replace with Regex?
+            Main.showError("Empty Fields", 2000);
             return;
         }
 
+        // Send Data to RequestHandlers
         request.logInRequest(mobile, password);
-
-//        textLoginMobileNo.setText("");
-//        textLogInPassword.setText("");
     }
 
+    /**
+     * Updates Log In page with given Data
+     *
+     * @param mobile   Mobile Number
+     * @param password Password
+     */
     public void setLogInCredentials(String mobile, String password) {
         textLoginMobileNo.setText(mobile);
         textLogInPassword.setText(password);
     }
 
     private final int ANIMATION_TIME = 500;
+
     @FXML
     public void showSignUpPane(ActionEvent event) {
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(ANIMATION_TIME), pane_signup);
+
+        // Make Visible First, The Animate
         pane_signup.setVisible(true);
         pane_signup.setDisable(false);
-        translateTransition.setFromX(379);
+
+        translateTransition.setFromX(pane_signup.getWidth());
         translateTransition.setToX(0);
+
         translateTransition.play();
 
+        // Thread to Completely Hide login_pane after ANIMATION_TIME
         new Thread(() -> {
+            // Wait for Animation to Complete
             try {
                 Thread.sleep(ANIMATION_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            Platform.runLater( () -> {
+            // Hide login_pane
+            Platform.runLater(() -> {
                 pane_login.setVisible(false);
                 pane_login.setDisable(true);
             });
@@ -133,24 +151,28 @@ public class Authenticate extends Controller {
 
     @FXML
     void signUpRequest(ActionEvent event) {
+        // Extract Data from Required TextFields
         String mobile = textSignUpMobileNo.getText();
         String name = textSignUpName.getText();
         String password = textSignUpPassword.getText();
 
+        // Check if Empty
         if (mobile.isEmpty() || password.isEmpty() || name.isEmpty()) {
-//            Stage stage = (Stage) rootPane.getScene().getWindow();
-            Main.showError("Empty Text Fields...", 2000);
+            Main.showError("ERROR: Empty Text Fields", 2000);
             return;
         }
 
+        // Check if a Valid Mobile Number is Provided
         if (!Pattern.matches("^01\\d{9}", mobile)) {
             textSignUpMobileNo.requestFocus();
             textSignUpMobileNo.setFocusColor(Color.RED);
             return;
         }
 
+        // Delegate data to RequestHandler
         request.signUpRequest(mobile, password, name);
 
+        // Clear TextFields
         textSignUpName.setText("");
         textSignUpPassword.setText("");
         textSignUpMobileNo.setText("");

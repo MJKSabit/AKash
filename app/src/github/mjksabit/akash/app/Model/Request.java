@@ -1,6 +1,6 @@
 package github.mjksabit.akash.app.Model;
 
-public abstract class Request <TypeC extends Controller> {
+public abstract class Request<TypeC extends Controller> {
     protected static final String REQUEST_TYPE = "requestType";
     protected static final String RESPONSE_SUCCESS = "success";
 
@@ -12,7 +12,7 @@ public abstract class Request <TypeC extends Controller> {
     protected static final String REQUEST_GET_TRANSACTION = "gettransaction";
     protected static final String REQUEST_GET_NOTIFICATION = "getnotification";
     protected static final String REQUEST_LOGOUT = "logout";
-    
+
     protected TypeC requester = null;
 
     public Request(TypeC requester) {

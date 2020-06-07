@@ -19,7 +19,7 @@ public class Password {
     @Override
     public boolean equals(Object password) {
         if (password instanceof String) password = new Password((String) password);
-        if(! (password instanceof Password)) return false;
-        return passwordHash.equals(((Password)password).getPasswordHash());
+        if (!(password instanceof Password)) return false;
+        return passwordHash.equals(((Password) password).getPasswordHash());
     }
 }

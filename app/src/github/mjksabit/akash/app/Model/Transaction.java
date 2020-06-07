@@ -29,7 +29,8 @@ public class Transaction {
                 transaction.getString("type"),
                 transaction.getString("reference"),
                 transaction.getBoolean("isCashOut"),
-                transaction.getDouble("amount"));
+                transaction.getDouble("amount")
+        );
     }
 
     public JSONObject getJSON() throws JSONException {

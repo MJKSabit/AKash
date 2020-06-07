@@ -15,8 +15,11 @@ import javafx.scene.paint.Color;
 public class Account extends Controller {
 
     User user = null;
+
+    // RequestHandler :: Tightly Coupled with this Controller
     AccountRequest request = null;
 
+    // Initialized Before Other Tasks
     public void setUser(User user) {
         this.user = user;
         textMobileNumber.setText(user.getMobile());
@@ -26,6 +29,8 @@ public class Account extends Controller {
     @FXML
     public void initialize() {
         super.setRootNode(root);
+
+        // Set Up Specialized RequestHandler for this Controller
         request = new AccountRequest(this);
     }
 
@@ -46,27 +51,34 @@ public class Account extends Controller {
 
     @FXML
     void dialogClose(ActionEvent event) {
+        // Close Window
         getStage().close();
     }
-
 
 
     @FXML
     void updateUserInfo(ActionEvent event) {
         String oldPassword = textOldPassword.getText();
 
-        if (user.getPassword().equals(oldPassword)) {
+        // Check if old Password Matches
+        if (user.verifyPassword(oldPassword)) {
             String newPassword = textNewPassword.getText();
-            if(newPassword.isEmpty()) {
+
+            if (newPassword.isEmpty()) {
+                // Focus to Add New Password
                 textNewPassword.requestFocus();
                 textNewPassword.setFocusColor(Color.RED);
-            }
-            else {
+            } else {
+                // Request Handled by Request Handler
                 request.changePassword(user, newPassword);
+
+                // Close Current Window
                 dialogClose(null);
             }
         } else {
-            Main.showError((Pane)getStage().getScene().getRoot(), "Password Mismatch!", 2000);
+            // Password doesn't Match
+            Pane rootPane = (Pane) getStage().getScene().getRoot();
+            Main.showError(rootPane, "Password Mismatch!", 2000);
         }
     }
 

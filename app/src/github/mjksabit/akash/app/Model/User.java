@@ -34,4 +34,8 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+
+    public boolean verifyPassword(String password) {
+        return this.password.equals(new Password(password));
+    }
 }
