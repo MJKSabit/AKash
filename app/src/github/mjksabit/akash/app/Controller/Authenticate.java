@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.Controller;
+import github.mjksabit.akash.app.Model.Password;
 import github.mjksabit.akash.app.Network.AuthenticateRequest;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -19,6 +20,8 @@ import javafx.util.Duration;
 import java.util.regex.Pattern;
 
 public class Authenticate extends Controller {
+
+    private static final String AGENT_PREFIX = "agent"; // Prefix added before the Agent Code
 
     // RequestHandler :: Tightly Coupled with this Controller
     private AuthenticateRequest request = null;
@@ -162,8 +165,8 @@ public class Authenticate extends Controller {
             return;
         }
 
-        // Check if a Valid Mobile Number is Provided
-        if (!Pattern.matches("^01\\d{9}", mobile)) {
+        // Check if a Valid Mobile Number is Provided, Or Agent <id>
+        if (!(Pattern.matches("^01\\d{9}", mobile) || Pattern.matches("^"+AGENT_PREFIX+"\\d+$", mobile))) {
             textSignUpMobileNo.requestFocus();
             textSignUpMobileNo.setFocusColor(Color.RED);
             return;

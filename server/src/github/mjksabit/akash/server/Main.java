@@ -77,7 +77,7 @@ public class Main {
                         // CREATE New Agent
                         case "NEW":
                             boolean status;
-                            String _agentNumber       = AGENT_PREFIX + commands[1];
+                            String _agentNumber     = AGENT_PREFIX + commands[1];
                             String _agentName       = commands[2];
                             String _agentPassword   = commands[3];
                             status = DBModel.getInstance().createUser(_agentNumber,

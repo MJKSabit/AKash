@@ -171,6 +171,13 @@ public class RequestHandler {
         JSONObject response = new JSONObject();
         response.put(RESPONSE_TYPE, REQUEST_SEND_MONEY);
 
+        if (request.getString("receiver").equals(loggedInUser.getMobileNumber())) {
+            response.put(RESPONSE_SUCCESS, false);
+            response.put(RESPONSE_INFO, "Sender can not be Receiver!");
+
+            return response.toString();
+        }
+
         // Amount is Positive Check
         if (request.getDouble("amount") <= 0) {
             response.put(RESPONSE_SUCCESS, false);
