@@ -1,6 +1,8 @@
 package github.mjksabit.akash.app.Controller;
 
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import github.mjksabit.akash.app.Main;
 import github.mjksabit.akash.app.Model.Controller;
 import github.mjksabit.akash.app.Network.AuthenticateRequest;
@@ -8,7 +10,6 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;

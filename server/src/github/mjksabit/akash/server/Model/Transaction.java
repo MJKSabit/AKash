@@ -3,15 +3,13 @@ package github.mjksabit.akash.server.Model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.xml.namespace.QName;
-
 public class Transaction {
-    private String id;
-    private String otherThanMe;
-    private String type;
-    private String reference;
+    private String  id;
+    private String  otherThanMe;
+    private String  type;
+    private String  reference;
     private boolean cashOut;
-    private double amount;
+    private double  amount;
 
     public Transaction(String id, String otherThanMe, String type, String reference, boolean cashOut, double amount) {
         this.id = id;

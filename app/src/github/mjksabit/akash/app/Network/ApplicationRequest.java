@@ -97,7 +97,7 @@ public class ApplicationRequest extends Request<Application> {
             if(response.getBoolean(RESPONSE_SUCCESS)) {
                 JSONArray notifications = response.getJSONArray("notifications");
 
-                for (int i=0; i<notifications.length(); i++) {
+                for (int i=notifications.length()-1; i>=0; i--) {
                     String text = notifications.getString(i);
                     Platform.runLater(() -> requester.addNotification(text));
                 }

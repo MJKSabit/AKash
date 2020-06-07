@@ -6,6 +6,8 @@ import java.util.ArrayList;
 public class DBModel {
     public static String DATABASE_LOCATION = "jdbc:sqlite:/media/sabit/Data/@CODE/Java/AKash/database/akash.db";
 
+    private static final String ADMIN = "ADMIN";
+
     private static final String USER_TABLE = "user";
     private static final String USER_NAME = "name";
     private static final String USER_PASSWORD = "password";
@@ -30,20 +32,25 @@ public class DBModel {
         System.out.println("Connecting Database...");
         try {
             return DriverManager.getConnection(DATABASE_LOCATION);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Can not open database");
             e.printStackTrace();
             return null;
         }
     }
 
+    /**
+     * Singleton DBModel Class
+     */
     private DBModel() {
         dbConnect = makeConnection();
     }
 
+    /**
+     * @return Singleton {@link DBModel} Object
+     */
     public static DBModel getInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new DBModel();
 
         return instance;
@@ -56,73 +63,101 @@ public class DBModel {
             statement.execute(sql);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            System.out.println("================ ERROR ADDING Notification ===============");
             return;
         }
         System.out.println("============== NOTIFICATION ADDED ==================");
     }
 
     public User getUser(String mobile, String password) {
-        String sql = "SELECT " + USER_MOBILE_NO + ", " +
-                USER_NAME + ", " + USER_PASSWORD + " FROM " +
-                USER_TABLE + " WHERE " +
-                USER_MOBILE_NO + " = '" + mobile + "' "+ "AND "+
-                USER_PASSWORD + " = '" + password + "'";
+        String sql =
+                "SELECT " +
+                    USER_MOBILE_NO + ", " +
+                    USER_NAME + ", " +
+                    USER_PASSWORD +
+                " FROM " + USER_TABLE +
+                    " WHERE " +
+                        USER_MOBILE_NO + " = '" + mobile + "' " +
+                        "AND " +
+                        USER_PASSWORD + " = '" + password + "'";
 
         User user = null;
 
         try (Statement statement = dbConnect.createStatement();
-            ResultSet result = statement.executeQuery(sql)) {
+             ResultSet result = statement.executeQuery(sql)) {
 
+            // If a user is found in Database ( a record )
             if (result.next()) {
-                user = new User(result.getString(USER_MOBILE_NO), result.getString(USER_PASSWORD), result.getString(USER_NAME));
+                user = new User(
+                        result.getString(USER_MOBILE_NO),
+                        result.getString(USER_PASSWORD),
+                        result.getString(USER_NAME)
+                );
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            System.out.println("================ ERROR GETTING USER from DATABASE ============");
         }
 
         return user;
     }
 
     public boolean userExists(String mobile) {
-        String sql = "SELECT " + USER_MOBILE_NO + " FROM " + USER_TABLE +
-                " WHERE " + USER_MOBILE_NO + " = '" + mobile + "'";
+        String sql =
+                "SELECT " +
+                     USER_MOBILE_NO +
+                " FROM " + USER_TABLE +
+                    " WHERE " +
+                        USER_MOBILE_NO + " = '" + mobile + "'";
 
         boolean status = false;
         try (Statement statement = dbConnect.createStatement();
              ResultSet result = statement.executeQuery(sql)) {
 
+            // A record is found ?
             if (result.next()) {
                 status = true;
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            System.out.println("================== ERROR CHECKING for EXISTING USER ================");
         }
 
         return status;
     }
 
     public double getBalance(String mobile) {
-        String sql = "SELECT " + USER_BALANCE + ", " + USER_MOBILE_NO + " FROM " + USER_TABLE + " WHERE " + USER_MOBILE_NO + " = ? ";
+        String sql =
+                "SELECT " +
+                        USER_BALANCE + ", " +
+                        USER_MOBILE_NO +
+                " FROM " + USER_TABLE +
+                    " WHERE " +
+                        USER_MOBILE_NO + " = ? ";
 
-//        System.out.println(sql);
-
-        double balance = -1;
+        double balance = 0;
         try (PreparedStatement pst = dbConnect.prepareStatement(sql)) {
+            // SQL Index starts from 1, Replace ? with mobile as String
             pst.setString(1, mobile);
 
             ResultSet resultSet = pst.executeQuery();
             balance = resultSet.getDouble(1);
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            System.out.println("================== ERROR Getting Balance ================");
         }
-
         return balance;
     }
 
     public boolean createUser(String mobile, String password, String name) {
-        String sql = "INSERT INTO " + USER_TABLE + " ( " +
-                USER_MOBILE_NO + ", " + USER_PASSWORD + ", " + USER_NAME + " ) " +
+        String sql =
+                "INSERT INTO " +
+                        USER_TABLE +
+                        " ( " +
+                            USER_MOBILE_NO + ", " +
+                            USER_PASSWORD + ", " +
+                            USER_NAME +
+                        " ) " +
                 "VALUES ( ?, ?, ? )";
 
         try (PreparedStatement statement = dbConnect.prepareStatement(sql)) {
@@ -132,7 +167,7 @@ public class DBModel {
 
             statement.execute();
         } catch (SQLException throwables) {
-            // user exists
+            // User exists, Can't Create new User as Mobile_No is the Primary Key
             throwables.printStackTrace();
             return false;
         }
@@ -141,17 +176,30 @@ public class DBModel {
     }
 
     public boolean makeTransaction(String sender, String receiver, double amount, String reference, String type) {
-        String sql = "INSERT INTO " + TRANSACTION_TABLE + " ( " +
-                TRANSACTION_SENDER + ", " + TRANSACTION_RECEIVER + ", " + TRANSACTION_AMOUNT + ", " + TRANSACTION_REFERENCE + ", " + TRANSACTION_TYPE + ") " +
+        String sql =
+                "INSERT INTO " +
+                        TRANSACTION_TABLE +
+                        " ( " +
+                            TRANSACTION_SENDER + ", " +
+                            TRANSACTION_RECEIVER + ", " +
+                            TRANSACTION_AMOUNT + ", " +
+                            TRANSACTION_REFERENCE + ", " +
+                            TRANSACTION_TYPE +
+                        ") " +
                 "VALUES ( ?, ?, ?, ?, ?)";
 
-        String balanceUpdate = "UPDATE " + USER_TABLE + " SET " +
-                USER_BALANCE + " = " + USER_BALANCE + " + ? " +
-                "WHERE " + USER_MOBILE_NO + " = ?";
+        String balanceUpdate =
+                "UPDATE " +
+                        USER_TABLE +
+                 " SET " +
+                        USER_BALANCE + " = " + USER_BALANCE + " + ? " +
+                "WHERE " +
+                        USER_MOBILE_NO + " = ?";
 
         boolean success = true;
 
         try {
+            // Do fully or Do none : Transaction
             dbConnect.setAutoCommit(false);
 
             try (PreparedStatement transaction = dbConnect.prepareStatement(sql)) {
@@ -164,24 +212,29 @@ public class DBModel {
                 transaction.executeUpdate();
             }
 
-            if(!receiver.isEmpty()) try (PreparedStatement receiverBalance = dbConnect.prepareStatement(balanceUpdate, Statement.RETURN_GENERATED_KEYS)){
-                receiverBalance.setDouble(1, amount);
-                receiverBalance.setString(2, receiver);
+            // Not Outer Transfer Protocol
+            if (!receiver.isEmpty())
+                try (PreparedStatement receiverBalance = dbConnect.prepareStatement(balanceUpdate, Statement.RETURN_GENERATED_KEYS)) {
+                    receiverBalance.setDouble(1, amount);
+                    receiverBalance.setString(2, receiver);
 
-                int affectedRow = receiverBalance.executeUpdate();
-                if(affectedRow != 1) {
-                    success = false;
+                    int affectedRow = receiverBalance.executeUpdate();
+
+                    if (affectedRow != 1) {
+                        // No update means transfer Failed
+                        success = false;
+                    }
                 }
-            }
 
-//            System.out.println(balanceUpdate);
 
-            try (PreparedStatement senderBalance = dbConnect.prepareStatement(balanceUpdate, Statement.RETURN_GENERATED_KEYS)){
+            try (PreparedStatement senderBalance = dbConnect.prepareStatement(balanceUpdate, Statement.RETURN_GENERATED_KEYS)) {
                 senderBalance.setDouble(1, -amount);
                 senderBalance.setString(2, sender);
 
                 int affectedRow = senderBalance.executeUpdate();
-                if(affectedRow != 1) {
+
+                if (affectedRow != 1) {
+                    // No update means transfer Failed
                     success = false;
                 }
             }
@@ -197,6 +250,7 @@ public class DBModel {
             success = false;
         } finally {
             try {
+                // Back to Auto Commit
                 dbConnect.setAutoCommit(true);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -206,57 +260,72 @@ public class DBModel {
         return success;
     }
 
+    private static final int FILTER_SHOW_ALL = 0;
+    private static final int FILTER_SHOW_SENT = -1;
+    private static final int FILTER_SHOW_RECEIVED = +1;
+
     public ArrayList<Transaction> getTransactions(String mobileNumber, int index, int limit, int filter) {
         ArrayList<Transaction> transactions = new ArrayList<>();
 
-        String firstCol, secondCol;
-        if(filter == 0) {
-            firstCol = TRANSACTION_SENDER;
-            secondCol = TRANSACTION_RECEIVER;
-        } else if (filter == -1) {
-            firstCol = TRANSACTION_SENDER;
-            secondCol = TRANSACTION_SENDER;
+        String firstColumn, secondColumn;
+
+        if (filter == FILTER_SHOW_ALL) {
+            // User in Either SENDER or RECEIVER
+            firstColumn = TRANSACTION_SENDER;
+            secondColumn = TRANSACTION_RECEIVER;
+        } else if (filter == FILTER_SHOW_SENT) {
+            // User is SENDER only
+            firstColumn = TRANSACTION_SENDER;
+            secondColumn = TRANSACTION_SENDER;
         } else {
-            firstCol = TRANSACTION_RECEIVER;
-            secondCol = TRANSACTION_RECEIVER;
+            // User is RECEIVER only
+            firstColumn = TRANSACTION_RECEIVER;
+            secondColumn = TRANSACTION_RECEIVER;
         }
 
-        String sql = "SELECT " +
-                TRANSACTION_ID + ", " +
-                TRANSACTION_SENDER + ", " +
-                TRANSACTION_RECEIVER + ", " +
-                TRANSACTION_TYPE + ", " +
-                TRANSACTION_REFERENCE + ", " +
-                TRANSACTION_AMOUNT +
-                " FROM " + TRANSACTION_TABLE +
+        String sql =
+                "SELECT " +
+                        TRANSACTION_ID + ", " +
+                        TRANSACTION_SENDER + ", " +
+                        TRANSACTION_RECEIVER + ", " +
+                        TRANSACTION_TYPE + ", " +
+                        TRANSACTION_REFERENCE + ", " +
+                        TRANSACTION_AMOUNT +
+                " FROM " +
+                        TRANSACTION_TABLE +
                 " WHERE " +
-                firstCol +
-                " like '" + mobileNumber + "' OR " +
-                secondCol+
-                " like '" + mobileNumber + "' "+
-                "ORDER BY " + TRANSACTION_ID + " DESC " +
-                " LIMIT " + limit +
-                " OFFSET " + index;
-//        System.out.println(sql);
+                        firstColumn + " = '" + mobileNumber +
+                    "' OR " +
+                        secondColumn + " = '" + mobileNumber + "' " +
+                "ORDER BY " +
+                        TRANSACTION_ID + " DESC " +
+                " LIMIT " +
+                        limit +
+                " OFFSET " +
+                        index;
 
-        try (PreparedStatement select = dbConnect.prepareStatement(sql)){
-            try (ResultSet resultSet = select.executeQuery()) {
-                while (resultSet.next()) {
-                    boolean isCashOut = resultSet.getString(TRANSACTION_SENDER).equals(mobileNumber);
-                    String otherUser = (isCashOut) ? resultSet.getString(TRANSACTION_RECEIVER) : resultSet.getString(TRANSACTION_SENDER);
-                    transactions.add(new Transaction(
-                            resultSet.getString(TRANSACTION_ID),
-                            otherUser,
-                            resultSet.getString(TRANSACTION_TYPE),
-                            resultSet.getString(TRANSACTION_REFERENCE),
-                            isCashOut,
-                            resultSet.getDouble(TRANSACTION_AMOUNT)
-                            ));
-                }
+        try (PreparedStatement select = dbConnect.prepareStatement(sql);
+             ResultSet resultSet = select.executeQuery()) {
+
+            while (resultSet.next()) {
+                boolean isCashOut = resultSet.getString(TRANSACTION_SENDER).equals(mobileNumber);
+
+                // Other User without Me
+                String otherUser = (isCashOut) ? resultSet.getString(TRANSACTION_RECEIVER) : resultSet.getString(TRANSACTION_SENDER);
+
+                transactions.add(new Transaction(
+                        resultSet.getString(TRANSACTION_ID),
+                        otherUser,
+                        resultSet.getString(TRANSACTION_TYPE),
+                        resultSet.getString(TRANSACTION_REFERENCE),
+                        isCashOut,
+                        resultSet.getDouble(TRANSACTION_AMOUNT)
+                ));
             }
 
         } catch (SQLException throwables) {
-           throwables.printStackTrace();
+            throwables.printStackTrace();
+            System.out.println("================== ERROR Getting Transaction ===============");
             return null;
         }
 
@@ -264,43 +333,60 @@ public class DBModel {
     }
 
     public ArrayList<String> getNotifications() {
-        String sql = "SELECT * from " + NOTIFICATION_TABLE;
+        String sql =
+                "SELECT " +
+                        "* " +
+                "FROM " +
+                        NOTIFICATION_TABLE;
+
         ArrayList<String> list = new ArrayList<>();
 
         try (Statement statement = dbConnect.createStatement();
-             ResultSet resultSet =  statement.executeQuery(sql)){
+             ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
                 list.add(resultSet.getString(1));
             }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            System.out.println("================== ERROR Getting Notification ===============");
         }
 
         return list;
-
     }
 
     public boolean changePassword(String mobile, String oldpassword, String newpassword) {
-        String sql = "UPDATE " + USER_TABLE + " " +
-                " SET " + USER_PASSWORD + " = '" + newpassword + "' "+
-                " WHERE " + USER_MOBILE_NO + " = '" + mobile + "' " +
-                " AND " + USER_PASSWORD + " = '" + oldpassword +"'";
-//        System.out.println(sql);
+        String sql =
+                "UPDATE " +
+                        USER_TABLE + " " +
+                " SET " +
+                        USER_PASSWORD + " = '" + newpassword + "' " +
+                " WHERE " +
+                        USER_MOBILE_NO + " = '" + mobile + "' " +
+                    " AND " +
+                        USER_PASSWORD + " = '" + oldpassword + "'";
 
-        int number;
-        try (Statement statement = dbConnect.createStatement()){
-            number = statement.executeUpdate(sql);
+        int numberOfUpdatedRows;
+        try (Statement statement = dbConnect.createStatement()) {
+            numberOfUpdatedRows = statement.executeUpdate(sql);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            number = 0;
+            System.out.println("================== ERROR Changing Password ===============");
+            numberOfUpdatedRows = 0;
         }
 
-        return number != 0;
+        return numberOfUpdatedRows != 0;
     }
 
-    public void adminAddToAgent(String agentCode, double ammount) {
-        System.out.println("================ AGENT MONEY SENT ? " + makeTransaction("ADMIN", "agent"+agentCode, ammount, "Cash in from ADMIN", "Send Money")
-        + "========================");
+    public void adminAddToAgent(String agentNumber, double ammount) {
+        boolean status = makeTransaction(
+                ADMIN,
+                agentNumber,
+                ammount,
+                "Cash in from ADMIN",
+                "Send Money");
+        String NOT = status ? "" : "NOT ";
+
+        System.out.println("================ AGENT MONEY " + NOT + "SENT ========================");
     }
 }

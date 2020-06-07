@@ -13,25 +13,30 @@ public class RequestHandler {
 
     private User loggedInUser = null;
 
-    public static final String REQUEST_TYPE = "requestType";
-    private static final String RESPONSE_TYPE = "responseType";
-    private static final String RESPONSE_SUCCESS = "success";
-    private static final String RESPONSE_INFO = "info";
+    public  static final String REQUEST_TYPE         = "requestType";
+    private static final String RESPONSE_TYPE       = "responseType";
+    private static final String RESPONSE_SUCCESS    = "success";
+    private static final String RESPONSE_INFO       = "info";
 
     private static final String RESPONSE_UNKNOWN = "unknown";
 
-    private static final String REQUEST_LOGIN = "login";
-    private static final String REQUEST_SIGNUP = "signup";
-    private static final String REQUEST_BALANCE = "balance";
-    protected static final String REQUEST_CHANGE_PASSWORD = "changepassword";
-    protected static final String REQUEST_SEND_MONEY = "sendmoney";
-    protected static final String REQUEST_GET_TRANSACTION = "gettransaction";
-    protected static final String REQUEST_GET_NOTIFICATION = "getnotification";
-    protected static final String REQUEST_LOGOUT = "logout";
+    private static final String REQUEST_LOGIN               = "login";
+    private static final String REQUEST_SIGNUP              = "signup";
+    private static final String REQUEST_BALANCE             = "balance";
+    private static final String REQUEST_CHANGE_PASSWORD     = "changepassword";
+    private static final String REQUEST_SEND_MONEY          = "sendmoney";
+    private static final String REQUEST_GET_TRANSACTION     = "gettransaction";
+    private static final String REQUEST_GET_NOTIFICATION    = "getnotification";
+    private static final String REQUEST_LOGOUT              = "logout";
 
-
+    /**
+     * Handles Request from {@link Client} provides Response
+     *
+     * @param request Request from Client in JSONFormat
+     * @return Processed Request ( Response )
+     * @throws JSONException
+     */
     public String handle(JSONObject request) throws JSONException {
-//        System.out.println(request.toString());
 
         String requestType = request.getString(REQUEST_TYPE);
 
@@ -61,10 +66,14 @@ public class RequestHandler {
     }
 
     private String logOut(JSONObject request) throws JSONException {
+
+        // Reuse request JSON
         request.remove(REQUEST_TYPE);
+
         request.put(RESPONSE_TYPE, REQUEST_LOGOUT);
         request.put(RESPONSE_SUCCESS, true);
 
+        // No logged in USER
         loggedInUser = null;
 
         return request.toString();
@@ -74,9 +83,13 @@ public class RequestHandler {
         JSONObject response = new JSONObject();
         response.put(RESPONSE_TYPE, REQUEST_CHANGE_PASSWORD);
 
-        response.put(RESPONSE_SUCCESS, DBModel.getInstance().changePassword(
-                request.getString("mobile"), request.getString("oldpassword"), request.getString("newpassword")
-        ));
+        boolean successStatus = DBModel.getInstance().changePassword(
+                request.getString("mobile"),
+                request.getString("oldpassword"),
+                request.getString("newpassword")
+        );
+
+        response.put(RESPONSE_SUCCESS, successStatus);
 
         return response.toString();
     }
@@ -85,15 +98,22 @@ public class RequestHandler {
         JSONObject response = new JSONObject();
         response.put(RESPONSE_TYPE, REQUEST_GET_TRANSACTION);
 
-        ArrayList<Transaction> transactions = DBModel.getInstance().getTransactions(
-                loggedInUser.getMobileNumber(), request.getInt("index"), request.getInt("limit"), request.getInt("filter"));
+        ArrayList<Transaction> transactions =
+                DBModel.getInstance().getTransactions(
+                        loggedInUser.getMobileNumber(),
+                        request.getInt("index"),
+                        request.getInt("limit"),
+                        request.getInt("filter")
+                );
 
-        response.put(RESPONSE_SUCCESS, transactions!=null);
-        if(transactions != null ) {
+        boolean successStatus = (transactions != null);
+        response.put(RESPONSE_SUCCESS, successStatus);
+
+        if (successStatus) {
             JSONArray transactionsJSON = new JSONArray();
 
             for (Transaction transaction : transactions)
-                transactionsJSON.put(transaction.getJSON());
+                transactionsJSON.put(transaction.getJSON()); // GetJSON of Transaction
 
             response.put("transactions", transactionsJSON);
         }
@@ -104,6 +124,7 @@ public class RequestHandler {
     private String balanceRequest(JSONObject request) throws JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(RESPONSE_TYPE, request.getString(REQUEST_TYPE));
+
         jsonObject.put(RESPONSE_SUCCESS, true);
         jsonObject.put("balance", loggedInUser.getBalance());
 
@@ -111,32 +132,34 @@ public class RequestHandler {
     }
 
     private String signUpRequest(JSONObject request) throws JSONException {
-        String name = request.getString("name");
-        String password = request.getString("password");
-        String mobile = request.getString("mobile");
-
-        boolean result = DBModel.getInstance().createUser(mobile, password, name);
-
+        // Reuse response Object
         request.remove(REQUEST_TYPE);
         request.put(RESPONSE_TYPE, REQUEST_SIGNUP);
 
-        request.put(RESPONSE_SUCCESS, result);
+        String name     = request.getString("name");
+        String password = request.getString("password");
+        String mobile   = request.getString("mobile");
+
+        boolean successStatus = DBModel.getInstance().createUser(mobile, password, name);
+
+        request.put(RESPONSE_SUCCESS, successStatus);
 
         return request.toString();
     }
 
     private String logInRequest(JSONObject request) throws JSONException {
         JSONObject response = new JSONObject();
+        response.put(RESPONSE_TYPE, REQUEST_LOGIN);
 
-        String mobile = request.getString("mobile");
+        String mobile   = request.getString("mobile");
         String password = request.getString("password");
 
         User user = DBModel.getInstance().getUser(mobile, password);
 
-        response.put(RESPONSE_TYPE, REQUEST_LOGIN);
-        response.put(RESPONSE_SUCCESS, user != null);
+        boolean successStatus = user != null;
+        response.put(RESPONSE_SUCCESS, successStatus);
 
-        if(user!=null) {
+        if (user != null) {
             response.put("name", user.getName());
             loggedInUser = user;
         }
@@ -146,57 +169,66 @@ public class RequestHandler {
 
     private String sendMoneyRequest(JSONObject request) throws JSONException {
         JSONObject response = new JSONObject();
-
         response.put(RESPONSE_TYPE, REQUEST_SEND_MONEY);
 
+        // Amount is Positive Check
         if (request.getDouble("amount") <= 0) {
             response.put(RESPONSE_SUCCESS, false);
-            response.put(RESPONSE_INFO, "Amount less than 0!");
+            response.put(RESPONSE_INFO, "Amount less than or equal 0!");
+
             return response.toString();
         }
 
+        // Lock the Database so that no other transaction can happent that time
         synchronized (DBModel.getInstance()) {
+
             double amount = request.getDouble("amount");
+
+            // Transaction Amount can not be greater than Account Balance
             if (loggedInUser.getBalance() < amount) {
                 response.put(RESPONSE_SUCCESS, false);
                 response.put(RESPONSE_INFO, "Not enough money in the account!");
+
                 return response.toString();
             }
 
-            String sender, receiver, reference, type;
-            sender = loggedInUser.getMobileNumber();
-            receiver = request.getString("receiver");
-            reference = request.getString("reference");
-            type = request.getString("type");
+            String sender       = loggedInUser.getMobileNumber();
+            String receiver     = request.getString("receiver");
+            String reference    = request.getString("reference");
+            String type         = request.getString("type");
 
-            if(receiver.isEmpty()) {
-                System.err.println("Handle Outer Transfer Protocol: ");
-                System.err.println("--------------------------------");
-                System.err.println(type+"\t::\t"+reference);
+            // Receiver Empty means the money will be received by Someone Outside AKash
+            if (receiver.isEmpty()) {
+                System.err.println(">>> OUTER TRANSFER PROTOCOL: ");
+                System.err.println("\t\t" + type + "\t::\t" + reference);
             }
-            else if(!DBModel.getInstance().userExists(receiver)) {
+            // Receiver Not Empty and User Does Not Exist, means Money can not be Transferred
+            else if (!DBModel.getInstance().userExists(receiver)) {
                 response.put(RESPONSE_SUCCESS, false);
                 response.put(RESPONSE_INFO, "Receiver Not found!");
+
                 return response.toString();
             }
 
-            response.put(RESPONSE_SUCCESS , DBModel.getInstance().makeTransaction(
+            boolean successStatus = DBModel.getInstance().makeTransaction(
                     sender, receiver, amount, reference, type
-            ));
+            );
 
-            response.put(RESPONSE_INFO, "Database Update");
+            response.put(RESPONSE_SUCCESS, successStatus);
+            response.put(RESPONSE_INFO, "( SUCCESSFUL )");
 
             return response.toString();
         }
     }
 
-    protected String notification(JSONObject request) throws JSONException {
+    private String notification(JSONObject request) throws JSONException {
         JSONObject response = new JSONObject();
         response.put(RESPONSE_TYPE, REQUEST_GET_NOTIFICATION);
 
         ArrayList<String> notifications = DBModel.getInstance().getNotifications();
 
         JSONArray array = new JSONArray();
+
         for (String data : notifications)
             array.put(data);
 
@@ -205,6 +237,4 @@ public class RequestHandler {
 
         return response.toString();
     }
-
-
 }
