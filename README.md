@@ -4,20 +4,21 @@
 AKash is a simple Banking Application using Java & JavaFX
   
 ## User Interface:  
-![Image](./screenshots/ui.png)
-Video Link: [Youtube](https://www.youtube.com/watch?v=U4to-xGq1NY)
+![Image](./screenshots/ui.png)  
+
+Video Link: [Youtube](https://www.youtube.com/watch?v=U4to-xGq1NY)  
 
 ## Dependencies
 - JDK 11+
 - JAVAFX for Java 9+
-
+  
 ## How to run?
 - In the __release__ folder, you'll find Jar Files
 - Edit the script files (.bat for windows/.sh for linux) according to your settings
 - Execute the script files (First Server, then Client)
-
+  
 ## How to use
-
+  
 - You can use command line of Server to execute ADMIN works  
 ![Image](./screenshots/start-server.png)  
   
@@ -46,4 +47,5 @@ See Transaction (With Filter)
 - Uses SHA256 Hashing to store password  
 ![Image](./screenshots/sha-256.png)
 
-Add a __[ ☆ Star | +1 ]__ which may drive me forward, For any Query, [mail](mailto:sabit.jehadul.karim@gmail.com) me or [knock](https://www.facebook.com/MdJehadulKarim) me on facebook.
+Add a __[ ☆ Star | +1 ]__ which may motivate me  
+For any Query, [mail](mailto:sabit.jehadul.karim@gmail.com) me or [knock](https://www.facebook.com/MdJehadulKarim) me on facebook.
